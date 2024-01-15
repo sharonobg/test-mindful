@@ -1,0 +1,81 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body{
+    background:linear-gradient(45deg, white ,white,blue 20%, white 10%,white);
+    height: 100vh;
+  }
+  form{@apply flex flex-row flex-wrap gap-5 my-3 self-center}
+  input,button{margin: 5px;}
+  button {@apply flex px-4 py-2 rounded-lg hover:opacity-80  }
+ button.self-start[type='submit']{@apply bg-blue-400 rounded-md py-2 px-3 text-white font-semibold}
+ form input, form select {@apply px-4 py-2 mt-4 mx-5 border border-gray-300 text-gray-500 no-underline}
+
+  input, select,textarea {
+    @apply w-[400px] px-3 py-3 rounded-md my-3 bg-slate-50 hover:bg-slate-200
+  }
+  h1 {
+    font-size: x-large;
+    text-align: center;
+  }
+  main{
+    @apply flex flex-col items-center p-4 place-content-center text-center
+  }
+  ul{margin:25px;border:1px solid blue;padding:45px 0 10px;}
+  li {
+    display: flex;
+    flex-direction: row;
+    justify-content:center;
+    align-items:center;
+  }
+  li>span {
+    width: 15%;
+    margin: 0;
+    flex-direction: row;
+    border:1px solid violet;
+    border-collapse:collapse;
+    text-align:center;
+  }
+  nav {
+    background: blueviolet;
+    padding: 10px 30px;
+  }
+  nav button{padding:0;margin:0;}
+  nav ul {
+    display: flex;
+    flex-direction: row;
+    list-style: none;
+    text-decoration: none;
+    align-content: center;
+    gap: 30px;
+    padding: 0;
+    margin: 10px 30px;
+    border: none;
+  
+  }
+  nav ul li>span,nav ul li>a{
+    width: auto;
+    margin: 0;
+    border: none;
+    text-align: center;
+    font-weight:bold;
+  }
+  nav ul a, nav p {
+    text-decoration: none;
+    color: #fff;
+    font-weight:700;
+    }
+    .circle {
+    padding: 2rem;
+    background: blue;
+    color: white;
+    font-weight: bold;
+    width: 6rem;
+    border-radius: 3rem;
+    text-align: center;
+    font-size: larger;
+    display: flex;
+    justify-content: center;
+    align-content: flex-end;
+  }

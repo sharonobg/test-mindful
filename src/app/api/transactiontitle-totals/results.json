@@ -1,0 +1,10 @@
+{"transactions":[
+    {
+        "transdate":"2024-01-04T18:00:29.562Z",
+        "descr":"test new db- new mag cash 12.75",
+        "acctype":"cash","amount":{"$numberDecimal":
+        "12.75"},
+        "date":{"month":1,"year":2024},
+        "title":"Books and Magazines"},
+        {"transdate":"2024-01-04T16:08:20.820Z",
+        "descr":"Amazon Books City of God","acctype":"debit","amount":{"$numberDecimal":"24.60"},"date":{"month":1,"year":2024},"title":"Books and Magazines"},{"transdate":"2024-01-04T16:00:37.000Z","descr":"test new db 14 debit mortgage 1002.50","acctype":"debit","amount":{"$numberDecimal":"1002.50"},"date":{"month":1,"year":2024},"title":"Mortgage"},{"transdate":"2024-01-03T19:52:32.000Z","descr":"test new db-food in 175.00","acctype":"debit","amount":{"$numberDecimal":"175.00"},"date":{"month":1,"year":2024},"title":"Food-in"},{"transdate":"2023-12-15T19:49:14.000Z","descr":"dec15 23 trans","acctype":"cash","amount":{"$numberDecimal":"1200.00"},"date":{"month":12,"year":2023},"title":"Vacation"},{"transdate":"2023-12-01T19:50:28.000Z","descr":"test transaction 12-1 bank food-out 55.78","acctype":"bank_account","amount":{"$numberDecimal":"55.78"},"date":{"month":12,"year":2023},"title":"Food-out"},{"transdate":"2023-11-06T20:10:28.000Z","descr":"test new db 11-6","acctype":"cash","amount":{"$numberDecimal":"55.88"},"date":{"month":11,"year":2023},"title":"Pets-Veterinarian"}]}
