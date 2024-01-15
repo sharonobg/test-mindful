@@ -16,11 +16,14 @@ export default async function Home({searchParams}) {
   //let query = filters;
 const getMonth = new Date()
 const month = getMonth.toLocaleString('default', { month: 'long' });
+const thisMonth = new Date().getMonth()+1;//this is default
+console.log('thisMonth',thisMonth)
+
 console.log('home props',searchParams)
 const newsearchParams = new URLSearchParams({searchParams});
     //const catsearchParams = new URLSearchParams('category');
 console.log('home newsearchParams',newsearchParams)
-
+//add this to transactions and spending plan views with all categoryies until filter : transaction.title == `${props.category}` &&
 for (const [key, value] of newsearchParams.entries()) {
   const nkey={key};
   const nvalue={value}

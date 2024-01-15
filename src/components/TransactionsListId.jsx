@@ -51,10 +51,8 @@ for (const [key, value] of newsearchParams.entries()) {
 //}
 const thismonth = {props}
     return(
-        
-
        <>
-       <h1>Fmonth: {props.fmonth}  Category: {props.category}</h1>
+       <h1>Fmonth: {props.fmonth} </h1>
        <div className="mt-5 flex flex-col place-items-center">
        <h1>Transaction List</h1>
        <h2 className="pb-3">My Transactions: getMOnthYear</h2>
@@ -74,7 +72,7 @@ const thismonth = {props}
         
             <div className="my2 flex flex-row h-auto p-0  my-0"> 
             
-            {  transaction.month == `${props.fmonth}` && transaction.title == `${props.category}` &&
+            {  transaction.month == `${props.fmonth}` && 
                 
                     <>
                 <div className="border-collapse border-2 border-amber-500 w-[100px] p-2">{transaction.month}/{transaction.day}/{transaction.year}</div>
