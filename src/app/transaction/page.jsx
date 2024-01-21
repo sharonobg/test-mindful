@@ -78,13 +78,7 @@ const CreateTransaction = () => {
         <div className="flex flex-col w-full place-items-center border-l-orange-100">
             <h2>Create Transaction</h2>
             <form onSubmit={handleSubmit} className="flex flex-col flex-wrap gap-5 my-3">
-                {/*<input onChange={(e) => setTransdate(e.target.value)}
-                    className=""
-                    name="transdate"
-                    id="transdate"
-                    placeholder="Transaction Date"
-                    type="date"
-                />*/}
+                
                 <DatePicker classname="border border-blue-600" selected={transdate} onChange={(date) => setTransdate(date)} />
                 <input onChange={(e) => setDescr(e.target.value)}
                 className="px-4 py-2 mt-4 mx-5 border border-green-200 text-green-500"
@@ -104,19 +98,6 @@ const CreateTransaction = () => {
                         <option key={category._id} value={category._id}>{category._id}:{category.title}</option>
 
                    ) ): "no categories are available"}</select>
-                {/*<select onChange={(e) => setCategoryTitle(e.target.value)}>
-                    {categories?.length > -1 ? 
-                    (categories.map((category) => 
-                        <option key={category._id} value={category.title}>{category.title}</option>
-
-                   ) ): "no categories are available"}</select>*/}
-
-                {/*<select onChange={(e) => setCategoryTitle(e.target.value)}>
-                    {categories?.length > -1 ? 
-                    (categories.map((category) => 
-                        <option key={category._id} id={category._id} value={category.title}>{category._id} {category.title}</option>
-
-                   ) ): "no categories are available"}</select>*/}
                 <input onChange={(e) => setAmount(e.target.value)}
                 name="amount"
                 placeholder="0.00"

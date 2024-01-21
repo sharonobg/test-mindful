@@ -13,20 +13,17 @@ export async function GET(request,params){
         const yeardate = params
         const session = await getServerSession(authOptions);
         const sessionUser = session?.user?._id;
-        //const filter = searchParams;
         console.log('yeardate',yeardate)
         const transactions= await Transaction.aggregate([
           { $match: {
-              //"categoryId": { $exists: true, },
-               $expr : { $eq: [ '$authorId' , { $toObjectId: sessionUser } ] } 
+              $expr : { $eq: [ '$authorId' , { $toObjectId: sessionUser } ] } 
           }},
            {
               "$lookup": {
                 "from": "categories",
                 "let": {
                   categoryId: {
-                    //"$toObjectId": "$categoryId"
-                    "$toObjectId": "$categoryId"
+                   "$toObjectId": "$categoryId"
                   }
                 },
                 "pipeline": [
@@ -65,45 +62,23 @@ export async function GET(request,params){
             { 
                 $addFields: {
                   month_date: {"$month": new Date() } 
-                  //filter:$filter
                   }
               },
             {
               $project: {
-                //_id: 0,
-                //"filter":$filter,
                 "transdate":1,
                 "descr":1,
                 "acctype":1,
                 day : {$dayOfMonth : "$transdate"},
                 month : {$month : "$transdate"}, 
                 year : {$year :  "$transdate"},
-                //date:{
-                //  day : {$dayOfMonth : "$transdate"},
-                //  month : {$month : "$transdate"}, 
-                //  year : {$year :  "$transdate"},
-                //},
                 categoryid:"$categoryId",
-                //title: "$category.title",
                 title: { $toLower : "$category.title" },
                 "amount":1,
                 month_date:1
               }
               
             },
-            
-            
-      //  {
-      //  $match: {
-      //    $expr: {
-      //      $eq: [
-      //        "$month",
-      //        "$$filter",
-      //      ]
-      //    }
-      //  },
-
-      //},
         {
           "$sort": {
             "year": -1,

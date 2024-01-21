@@ -103,13 +103,38 @@ export async function GET(request){
                   _id: 0,
                   month : {$month : "$transdate"}, 
                   year : {$year :  "$transdate"},
-                  title: "$category.title",
+                  //title: "$category.title",
+                  title: {$toLower:"$category.title"},
                   descr: 1,
                   amount:{$sum: "$amount"},
                   doc_date:1,
                   month_date:1
                 }
               },
+            //  {
+            //    "$group" : {
+            //        _id:"$title",
+            //            //month: "$month",
+            //            //year: "$year"
+            //            
+            //        }
+            //        
+            //        ,"amount": {$sum: "$amount"}//this groups by 
+            //    //"$group" : {_id: "$categoryId","amount": {$sum: "$amount"}}//this groups by descr
+            //},
+              {
+                "$group" : {
+                    _id:
+                    { year: "$year",
+                      month:"$month",
+                      title:"$title"}
+                    
+                    ,"amount": {$sum: "$amount"},
+                    
+                  }//this groups by 
+                //"$group" : {_id: "$categoryId","amount": {$sum: "$amount"}}//this groups by descr
+            },
+            
             {
                 "$sort": {
                   "year": -1,
@@ -159,4 +184,3 @@ export async function DELETE(request){
         {status: 200}
     )
 }
-

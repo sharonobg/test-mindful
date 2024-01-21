@@ -8,7 +8,7 @@ export default async function TransactionList(props) {
     
  
  
-    const getTransactions = async () => {
+const getTransactions = async () => {
         try{
             
             const res = await fetch("http://localhost:3000/api/transaction",{
@@ -20,7 +20,6 @@ export default async function TransactionList(props) {
                 throw new Error("Failed to fetch transactions");
             }
             //console.log('res in route: ',res)
-           
             console.log('transadctionsListId props ln 23',props) 
             return res.json();
         }catch(error){
@@ -28,35 +27,16 @@ export default async function TransactionList(props) {
         }
     }
 
-   const {transactions} = await getTransactions();
-//const params= ctx
-   
-
-//let categorySearch = searchParams("catagory");
-
-    //const newprops = {newsearchParams,fmonth}
+const {transactions} = await getTransactions();
 const newsearchParams = new URLSearchParams(props);
-//    //const catsearchParams = new URLSearchParams('category');
-//console.log('comp newsearchParams',newsearchParams)
-//
-for (const [key, value] of newsearchParams.entries()) {
-    let keyn = {key}
-    let valuen= {value}
-    //console.log('home params: ',`${key}, ${value}`);
-    console.log('home params: ',keyn, ":",valuen);
-  }
-  
-//for (const key of newsearchParams.keys()) {
-//  console.log('key',key);
-//}
-const thismonth = {props}
+console.log('comp newsearchParams',newsearchParams)
+
     return(
        <>
-       <h1>Fmonth: {props.fmonth} </h1>
        <div className="mt-5 flex flex-col place-items-center">
-       <h1>Transaction List</h1>
-       <h2 className="pb-3">My Transactions: getMOnthYear</h2>
-       <h3>Choose another month:</h3>
+       <h1>My Transactions: {props.fmonth}/{props.fyear}</h1>
+       <h3>Choose another month: make a list from the available transdates </h3>
+       <h3>Choose another category: filter categories</h3>
        
        <div className="mt-5 bg-white  flex flex-row h-auto p-0 gap-2 my-0 border-2 border-collapse border-blue-600"> 
             <div className="font-bold border-collapse border-r-2 border-amber-500 w-[100px] p-2">Month/Day/Year</div>
@@ -72,7 +52,9 @@ const thismonth = {props}
         
             <div className="my2 flex flex-row h-auto p-0  my-0"> 
             
-            {  transaction.month == `${props.fmonth}` && 
+            { transaction.year == `${props.fyear}` && transaction.month == `${props.fmonth}` && transaction.month == `${props.fmonth}` && 
+            (`${props.category}` === 'all' ||  transaction.title == `${props.category}`) && 
+            
                 
                     <>
                 <div className="border-collapse border-2 border-amber-500 w-[100px] p-2">{transaction.month}/{transaction.day}/{transaction.year}</div>

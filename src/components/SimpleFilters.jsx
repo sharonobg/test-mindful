@@ -6,7 +6,7 @@ import {ToastContainer ,toast} from 'react-toastify';
 import {useSession} from 'next-auth/react'
 
 
-const FilterTransaction = () => {
+const SimpleFilterTransaction = () => {
 //export default function FilterTransaction ()  {
     //get the year and the month - get the months up to the current month
     //get the previous year - get the months from the first month available to the end of the year
@@ -20,6 +20,7 @@ const FilterTransaction = () => {
     const [categories,setCategories]=useState([])
     const [categoryId,setCategoryId]= useState("")
     const [filters,setFilters]=useState([])
+    const [transactionstotal,setTransactionstotal]=useState([])
     const [fmonth,setFMonth]=useState('')
     const {data:session,status} = useSession();
     const router= useRouter();
@@ -33,13 +34,13 @@ const FilterTransaction = () => {
 
     
         useEffect(() => {
-            fetch('http://localhost:3000/api/filters')
+            fetch('http://localhost:3000/api/newsimplefilter')
             .then((res) => res.json())
-              .then(({filters}) => {
+              .then((filters) => {
                 console.log('filters: ',filters)
                 setFilters(filters)
               })
-            }, [])
+            },[])
 
           useEffect(() => {
         
@@ -71,20 +72,23 @@ const FilterTransaction = () => {
     //)
     return(
         <>
-        <div onSubmit={filterResults} className="flex flex-col w-full place-items-center border-l-orange-100">
+        <div className="flex flex-col w-full place-items-center border-l-orange-100">
             <h2>Filter by Month</h2>
             <form className="flex flex-col flex-wrap gap-5 my-3">
             <h2>Filter by Category</h2>
                 <select onChange={(e) => setCategoryId(e.target.value)}>
                     {categories?.length > -1 ? 
                     (categories.map((category) => 
-                        <option key={category._id} value={category._id}>{category.title}</option>
+                        <option key={category} value={category}>{category.title}</option>
 
                    ) ): "no categories are available"}</select>
-                <select onChange={(e) => setFilters(e.target.value)}>
-                  {transactionstotal?.length > -1 ? 
-                    (transactionstotal.map((transactiontotal,index) =>
-                        <option key={index} value={transactiontotal._id.month}>{transactiontotal._id.year}</option>
+                <select>
+                  {filters?.length > -1 ? 
+                  (filters.map((filter,index) =>
+                  {return(
+                    <option key={index} value={`${filter._id.month}${filter._id.year}`}>{filter._id.month}/{filter._id.year}</option>
+                  )}
+                    
                 )): "no dates are available"}
                 </select>
                 
@@ -94,4 +98,4 @@ const FilterTransaction = () => {
         
         </>)
 }
-export default FilterTransaction
+export default SimpleFilterTransaction

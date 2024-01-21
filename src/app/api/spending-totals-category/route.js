@@ -46,7 +46,8 @@ export async function GET(request){
                       $project: {
                         transdate:1,
                         descr: 1,
-                        title: 1,
+                        title: { $toLower : "$category.title" },
+                      
                         amount:1
                       }
                     }
@@ -67,7 +68,8 @@ export async function GET(request){
                   _id: 0,
                   month : {$month : "$transdate"}, 
                   year : {$year :  "$transdate"},
-                  title: "$category.title",
+                  //title: "$title",
+                  title: { $toLower : "$category.title" },
                   descr: 1,
                   amount:{$sum: "$amount"},
                   month_date:1
@@ -81,10 +83,13 @@ export async function GET(request){
               //},
             {
                 "$group" : {
-                    _id:{
+                    _id:
+                    
+                    {
                         month: "$month",
                         year: "$year",
                     }
+                    
                     ,"amount": {$sum: "$amount"}}//this groups by 
                 //"$group" : {_id: "$categoryId","amount": {$sum: "$amount"}}//this groups by descr
             },
@@ -132,6 +137,7 @@ export async function DELETE(request){
     //send data as json
     const id = request.nextUrl.searchParams.get('id');
     //await connect();
+    
     await Transaction.findByIdAndDelete(id);
     return NextResponse.json(
         
