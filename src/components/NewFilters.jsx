@@ -20,6 +20,7 @@ const FilterTransaction = () => {
     const [categories,setCategories]=useState([])
     const [categoryId,setCategoryId]= useState("")
     const [filters,setFilters]=useState([])
+    const [transactionstotal,setTransactionstotal]=useState([])
     const [fmonth,setFMonth]=useState('')
     const {data:session,status} = useSession();
     const router= useRouter();
@@ -33,13 +34,13 @@ const FilterTransaction = () => {
 
     
         useEffect(() => {
-            fetch('http://localhost:3000/api/filters')
+            fetch('http://localhost:3000/api/newfilters')
             .then((res) => res.json())
               .then(({filters}) => {
-                console.log('filters: ',filters)
+                console.log('filters filters: ',filters)
                 setFilters(filters)
               })
-            }, [])
+            },[])
 
           useEffect(() => {
         
@@ -71,7 +72,7 @@ const FilterTransaction = () => {
     //)
     return(
         <>
-        <div onSubmit={filterResults} className="flex flex-col w-full place-items-center border-l-orange-100">
+        <div className="flex flex-col w-full place-items-center border-l-orange-100">
             <h2>Filter by Month</h2>
             <form className="flex flex-col flex-wrap gap-5 my-3">
             <h2>Filter by Category</h2>
@@ -82,9 +83,9 @@ const FilterTransaction = () => {
 
                    ) ): "no categories are available"}</select>
                 <select onChange={(e) => setFilters(e.target.value)}>
-                  {transactionstotal?.length > -1 ? 
-                    (transactionstotal.map((transactiontotal,index) =>
-                        <option key={index} value={transactiontotal._id.month}>{transactiontotal._id.year}</option>
+                  {filters?.length > -1 ? 
+                    (filters.map((filter,index) =>
+                        <option key={filter.date} value={`${filter.date.month}/${filter.date.month}`}>{filter._id.month}{filter._id.year}</option>
                 )): "no dates are available"}
                 </select>
                 
