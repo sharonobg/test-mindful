@@ -5,6 +5,8 @@ import TransactionsListId from '../components/TransactionsListId';
 //import TransactionsListIdClient from '../components/TransactionsListIdClient';
 import SimpleFilters from '../components/SimpleFilters';
 import SpendingPlan from '../components/SpendingPlan';
+import SPWSpendPlanWaddfields from '../components/SPWSpendPlanWaddfields';
+import Categories from '../components/Categories';
 import {getServerSession} from "next-auth";
 
 export default async function Home({searchParams}) {
@@ -19,26 +21,14 @@ const month = getMonth.toLocaleString('default', { month: 'long' });
 const thisMonth = new Date().getMonth()+1;//this is default
 console.log('thisMonth',thisMonth)
 const thisYear = new Date().getFullYear()
-
 console.log('home props',searchParams)
-const newsearchParams = new URLSearchParams({searchParams});
-    //const catsearchParams = new URLSearchParams('category');
-//console.log('home newsearchParams',newsearchParams)
-//add this to transactions and spending plan views with all categoryies until filter : transaction.title == `${props.category}` &&
-//for (const [key, value] of newsearchParams.entries()) {
-//  const nkey={key};
-//  const nvalue={value}
-//  //console.log('home params: ',`${key}, ${value}`);
-//  console.log('home params: ',nkey, nvalue);
-//  
-//}
 const filteryear = searchParams.fyear? searchParams.fyear : thisYear;
 const filtermonth = searchParams.fmonth? searchParams.fmonth : thisMonth;
 const filtermonthtotal=searchParams.fmonth? searchParams.fmonth : thisMonth;
-const filtercategory= searchParams.category? searchParams.category : "all"
+const filtercategory= searchParams.category? searchParams.category : "all-categories"
 console.log('prop searchParams:',searchParams)
-
-console.log('propFmonth:',filtermonth)
+console.log('propFilteryear:',filteryear)
+console.log('propFiltermonth:',filtermonth)
 console.log('propCategory:',filtercategory)
 
   return (
@@ -49,8 +39,10 @@ console.log('propCategory:',filtercategory)
     {session?.user?.email ? 
     (
       <>
-      <h1>Month:{filtermonth}/{filteryear}     Category: {filtercategory ? filtercategory : "All Categories"}</h1>
+      <h1>Month:{filtermonth}/{filteryear}     Category: {filtercategory ? filtercategory : "All-Categories"}</h1>
       <SimpleFilters />
+      <Categories />
+    <SPWSpendPlanWaddfields fyear={filteryear} fmonth={filtermonth} />
       <SpendingPlan fyear={filteryear} fmonth={filtermonth} category={filtercategory} />
       {/*<TransactionsListId fmonth={searchParams?.fmonth|thisMonth} category={searchParams?.category|undefined}/>*/}
       <TransactionsListId fyear={filteryear} fmonth={filtermonth} category={filtercategory} />

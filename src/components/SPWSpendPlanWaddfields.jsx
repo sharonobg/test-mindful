@@ -1,38 +1,26 @@
 import {headers} from "next/headers"
 
-
-const getTotals = async () => {
+const getPlans = async (props) => {
     try{
-        const res = await fetch("http://localhost:3000/api/transactiontitle-totals",{
+        const res = await fetch("http://localhost:3000/api/withaddfields",{
            cache: 'no-store',
            method: "GET",
            headers: headers(),
         });
         if(!res.ok){
-            throw new Error("Failed to fetch transactions");
+            throw new Error("Failed to fetch plan");
         }
+        //const data = await res.json();
+        //console.log('data',data);
         return res.json();
+        //return data
     }catch(error){
-        console.log("Error finding transactions",error)
+        console.log("Error finding plan",error)
 
     }
     
 }
-const getGrandTotals = async (props) => {
-    try{
-        const res = await fetch("http://localhost:3000/api/spending-totals-category",{
-           cache: 'no-store',
-           method: "GET",
-           headers: headers(),
-        });
-        if(!res.ok){
-            throw new Error("Failed to fetch transactions");
-        }
-        return res.json();
-    }catch(error){
-        console.log("Error finding transactions",error)
-    }
-}
+
 const getCategories = async () => {
     try{
         const res = await fetch("http://localhost:3000/api/category",{
@@ -51,9 +39,13 @@ const getCategories = async () => {
 
 }
 export default async function SPCategoryView(props) {
-    const {categories} = await getCategories();
-    const transactiontotals = await getTotals();
-    const grandtotals = await getGrandTotals();
+    //const {categories} = await getCategories();
+    //const transactiontotals = await getTotals();
+    //const spendingplannew = await getPlans();
+    //const  getboth = await  getBothWTotals();
+    //const spendingplannotalt = await getPlansFirst(); 
+    //const grandtotals = await getGrandTotals();
+    const getPlansAddF = await getPlans();
     const getMonth = new Date().getMonth()+1
     const newD = new Date()
     const month = newD.toLocaleString('default', { month: 'long' });
@@ -65,12 +57,17 @@ export default async function SPCategoryView(props) {
     //}else{
     // propscategory = `${props.category}`
     //}
+//const mycategoriesdata = getPlans();
 
-    
-   //console.log('SPCategoryView grandtotals',grandtotals)
+    console.log('getPlansAddF',getPlansAddF)
+    console.log('spending planfiltermonth',props.fmonth)
+   //console.log('SPCategoryView transactiontotals',
+   //transactiontotals)
+   
     return(
        <>
-      
+          <pre>GET getPlansAddF:{JSON.stringify(getPlansAddF, null, 2)}</pre>
+
        <div className="my-5 flex flex-col place-items-center">
        <h1>Monthly Spending Plan:  {props.fmonth}/{props.fyear}<br />(note-cats not entered should be 0.00 all categories should show)</h1>
        </div>
@@ -83,34 +80,43 @@ export default async function SPCategoryView(props) {
         <div className="font-bold border border-amber-500 w-[100px] p-2 text-left">Difference</div>
         <div className="font-bold border border-amber-500 w-[200px] p-2 text-left">Explain Diff</div>
         </div>
-        <div className="flex flex-row  w-full min-h-[50%] bg-white">
-        <div className="font-bold border border-amber-500 w-[200px] p-2 text-left">Category Notes</div>
-        <div className="font-bold border border-amber-500 w-[200px] p-2 text-left">Some Categoryu</div>
-        <div className="font-bold border border-amber-500 w-[200px] p-2 text-left">150.00</div>
-        <div className="font-bold border border-amber-500 w-[200px] py-2">0.00</div>
-        <div className="font-bold border border-amber-500 w-[100px] p-2 text-left">150.00</div>
-        <div className="font-bold border border-amber-500 w-[200px] p-2 text-left">not done</div>
+        {getPlansAddF?.length > -1 ? (getPlansAddF.map((spendingplan,index) =>
+            
+        <div key={index} className="spkey">
+        { spendingplan.month === 2 && spendingplan.year == 2024 &&  ( 
+                    <>
+        {spendingplan.transactlookup.mycats.map((lookup,index) =>
+            
+            <div className="flex flex-row" key={index}>
+                
+            <div className="border border-amber-500 w-[200px] p-2 text-left">{spendingplan.transactlookup.month}/{spendingplan.transactlookup.planyear}</div>
+            <div className="border border-amber-500 w-[200px] p-2 text-left">{lookup.categorynotes}</div>
+            <div className="border border-amber-500 w-[200px] p-2 text-left">Category:{lookup.mycategoryId}</div>
+            <div className="border border-amber-500 w-[200px] p-2 text-left">{lookup.planamount.$numberDecimal}</div>
+            </div>
+            )}
+       
+       
+        </> )}
         </div>
        
-       {transactiontotals?.length > -1 ? (transactiontotals.map((transactiontotal,index) =>
-        
-        <div key={index} className="flex flex-row  w-full min-h-[50%] bg-white">
-        
+        )):("cant find plan")}
+       {/*{transactiontotals?.length > -1 ? (transactiontotals.map( (transactiontotal,index) =>
+        <div key={transactiontotal._id} className="transactiontotalkey">
         { transactiontotal._id.year == `${props.fyear}` && transactiontotal._id.month == `${props.fmonth}` && (`${props.category}` == 'all-categories' ||  transactiontotal._id.title == `${props.category}`) && 
         <>
-        <div className="border border-amber-500 w-[200px] p-2 text-left"></div>
-        <div className="border border-amber-500 w-[200px] p-2 text-left">{transactiontotal?._id.title}</div>
-        
-        <div className="border border-amber-500 w-[200px] p-2 text-left">Planned Amt</div>
-        <div className="border border-amber-500 w-[200px] py-2">{transactiontotal?.amount.$numberDecimal}</div>
-        <div className="border border-amber-500 w-[100px] p-2 text-left">Difference</div>
-        <div className="border border-amber-500 w-[200px] p-2 text-left">Explain Diff</div>
+        <div className="title border border-amber-500 w-[200px] p-2 text-left">{transactiontotal?._id.title}</div>
+        <div className="amount border border-amber-500 w-[200px] py-2">{transactiontotal?.amount.$numberDecimal}</div>
+        <div className="diff border border-amber-500 w-[100px] p-2 text-left">Difference</div>
+        <div className="explain border border-amber-500 w-[200px] p-2 text-left">Explain Diff</div>
         </>  }
         </div>
    
        )):("cant find any totals")
        
        }
+     
+       {/*
        {grandtotals?.length > -1 ? (grandtotals.map((grandtotal,index) =>
         
         <div key={index} className="flex flex-row  w-full min-h-[50%] font-bold bg-white">
@@ -127,7 +133,7 @@ export default async function SPCategoryView(props) {
         
        )):("cant find any totals")
        
-       }
+       }*/}
        
         </div>
        </>

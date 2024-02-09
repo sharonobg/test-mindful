@@ -10,21 +10,20 @@ import {ToastContainer ,toast} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import RemoveTransaction from '../../../components/RemoveTransaction'
+//import RemoveSpendingplan from '../../../components/RemoveSpendingplan'
 
 
     
 const Edit = (ctx) => {
-    //let newdate = new Date().toISOString//();
-    //console.log('newdate',newdate)
-    const [transactionDetails,setTransactionDetails]=useState("");
-    const [transdate,setTransdate]= useState(new Date())
-    const [descr,setDescr]= useState("")
-    const [acctype,setAcctype]= useState("")
+    const [spendingplanDetails,setSpendingplanDetails]=useState([])
     const [categories,setCategories]=useState([])
+    const [mycategories,setMycategories]=useState([])
+    const [planmonthyear,setPlanmonthyear]=useState(new Date())
+    const [planamount,setPlanamount]=useState("")
+    const [mycategoryId,setMycategoryId]= useState("")
+    const [categorynotes,setCategorynotes]= useState("")
     const [categoryTitle,setCategoryTitle]= useState("")
-    const [categoryId,setCategoryId]= useState("")
-    const [amount,setAmount]= useState("")
+    const [isChecked, setIsChecked] = useState(false);
     const {data:session,status} = useSession();
     const router= useRouter();
     
@@ -39,26 +38,27 @@ useEffect(() => {
   }, []);
 useEffect(() => {
     
-   async function fetchTransaction() {  
+   async function fetchSpendingplan() {  
                          
-       const res = await fetch(`http://localhost:3000/api/transaction/${ctx.params.id}`
-       ,{cache:'no-store'}
+       const res = await fetch(`http://localhost:3000/api/spending-plan/${ctx.params.id}`
+       //,{cache:'no-store'}
        )
-       const transaction = await res.json()
-       //console.log('fetchTransaction',transaction)
-       const transdatePrev = transaction.transdate;
-       const dataamount=transaction.amount.$numberDecimal;
-       setTransactionDetails({
-            transdate:transdatePrev,
-            acctype:transaction.acctype,
-            descr:transaction.descr,
-            categoryId:transaction.categoryId,
-            amount:dataamount,
+       const spendingplan = await res.json()
+       //console.log('fetchSpendingPlan',spendingplan)
+       const planmonthyearPrev = planmonthyear;
+       const dataamount=mycategories.planamount.$numberDecimal;
+       setSpendingplanDetails({
+            planmonthyear:planmonthyearPrev,
+            mycategoryId:mycategories.mycategoryId,
+            planamount:mycategories.dataamount,
+            mycategoryId:mycategories.mycategoryId,
+            planamount:mycategories.dataamount,
+            categorynotes: mycategories.categorynotes
             //authorId:session?.user._id
         })}
-    fetchTransaction()
+    fetchSpendingplan()
 },[])
-//console.log('transactionDetails after set: ',transactionDetails)
+//console.log('spendingplanDetails after set: ',spendingplanDetails)
 if(status === 'loading'){
     return <p>Loading...</p>
 }
@@ -72,9 +72,11 @@ const handleSubmit= async (e) => {
     try{
         //const id = ctx.params.id;
         const body = {
-            transdate,descr,acctype,categoryId,amount
+            planmonthyear,
+            planamount,
+            categorynotes
         }
-        const res = await fetch(`http://localhost:3000/api/transaction/${ctx.params.id}`,{
+        const res = await fetch(`http://localhost:3000/api/spendingplan/${ctx.params.id}`,{
     
         headers: {
             "Content-Type": 'application/json',
@@ -93,8 +95,8 @@ const handleSubmit= async (e) => {
         console.log("Edit failed")
     }
 
-    const transaction = await res.json();
-    //console.log('transaction edit: ',transaction);
+    const spendingplan = await res.json();
+    console.log('spendingplan edit: ',spendingplan);
     router.push("/");
     }catch(error){
         console.log(error)
@@ -109,7 +111,7 @@ const handleDeleteA= async (e) => {
         //const body = {
         //    transdate,descr,acctype,categoryId,amount
         //}
-        const res = await fetch(`http://localhost:3000/api/transaction/${ctx.params.id}`,{
+        const res = await fetch(`http://localhost:3000/api/spendingplan/${ctx.params.id}`,{
     
         headers: {
             "Content-Type": 'application/json',
@@ -129,8 +131,8 @@ const handleDeleteA= async (e) => {
         console.log("Edit failed")
     }
 
-    //const transaction = await res.json();
-    //console.log('transaction edit: ',transaction);
+    //const spendingplan = await res.json();
+    //console.log('spendingplan edit: ',spendingplan);
     //router.push("/");
     }catch(error){
         console.log(error)
@@ -145,7 +147,7 @@ const handleDelete = async (ctx) => {
         if(confirmed){
             //ctx.params.id
             
-            const res = await fetch(`http://localhost:3000/api/transaction/${ctx.params.id}`, {
+            const res = await fetch(`http://localhost:3000/api/spendingplan/${ctx.params.id}`, {
                 method: "DELETE"
             });
             if(res.ok){
@@ -158,10 +160,10 @@ const handleDelete = async (ctx) => {
 return(
     <>
         <div className="flex flex-col w-full place-items-center border-l-orange-100">
-            <h2>Edit Transaction</h2>
+            <h2>Edit Spendingplan</h2>
             <form onSubmit={handleSubmit} className="flex flex-col flex-wrap gap-5 my-3">
              <DatePicker 
-             value={transactionDetails.transdate}
+             value={spendingplanDetails.transdate}
              onChange={(date) => setTransdate(date)}
              classname="border border-blue-600" 
                />
@@ -170,44 +172,44 @@ return(
                 name="description"
                 placeholder="Description"
                 type="text"
-                defaultValue={transactionDetails.descr}
+                defaultValue={spendingplanDetails.descr}
                 />
                 <select 
                 onChange={(e) => setAcctype(e.target.value)}
                 type="text" 
-                value ={transactionDetails.acctype} 
+                value ={spendingplanDetails.acctype} 
                 >
                 <option value="debit">Debit</option>
                 <option value="cash">Cash</option>
                 <option value="bank_account">Bank Account</option>
                 <option value="other">Other</option>
                 </select>
-                <select onChange={(e) => setCategoryId(e.target.value)}
+                {/*<select onChange={(e) => setCategoryId(e.target.value)}
                 className="px-4 py-2 mt-4 mx-5 border border-green-200 text-green-500"
                 name="categoryTitle"
                 placeholder="Category"
                 type="text"
-                value={transactionDetails.categoryId}
+                value={spendingplanDetails.categoryId}
                 >
                     {categories?.length > -1 ? 
                     (categories.map((category) => 
                         <option key={category._id} id={category._id} value={category._id}>{category.title} : {category._id}</option>
 
-                   ) ): "no categories are available"}</select>
+                   ) ): "no categories are available"}</select>*/}
                 
-                <input onChange={(e) => setAmount(e.target.value)}
-                name="amount"
+                <input onChange={(e) => setPlanamount(e.target.value)}
+                name="planamount"
                 placeholder="0.00"
                 type="string"
-                defaultValue={transactionDetails.amount}
+                defaultValue={spendingplanDetails.planamount}
                 />
-                <button className="bg-blue-400 rounded-md p-3 text-white font-semibold" type="submit">Edit Transaction</button>
+                <button className="bg-blue-400 rounded-md p-3 text-white font-semibold" type="submit">Edit Spendingplan</button>
             </form>
             <div className="flex gap-2 flex-row ">
                     {/*<div className="flex flex-row">
-                        <Link className="flex flex-row gap-1" href={`/transaction/edit/${ctx.params.id}`}>Edit<BsFillPencilFill /></Link>
+                        <Link className="flex flex-row gap-1" href={`/spendingplan/edit/${ctx.params.id}`}>Edit<BsFillPencilFill /></Link>
                     </div>*/}
-                   <RemoveTransaction id="" />
+                   {/*<RemoveSpendingplan id="" />*/}
                     <button onClick={handleDeleteA} className="flex flex-row gap-1" >Delete<AiFillDelete /></button>
                 </div>
             

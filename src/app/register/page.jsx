@@ -40,7 +40,7 @@ const toggleShowPass =(e) => {
     const validateForm = () => { 
         let errors = {}; 
         if (!username) { 
-            errors.username = 'Username is required.'; 
+            errors.username = 'Username must have at least 1 uppercase letter, 1 lower case letter and at least 8 characters.'; 
             
         } else if (!/(?=.*[a-z])(?=.*[A-Z]).{8,25}/.test(username)) { 
             

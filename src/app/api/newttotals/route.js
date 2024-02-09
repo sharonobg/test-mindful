@@ -63,12 +63,20 @@ export async function GET(request){
                         }
                       }
                     },
-                    //{ 
-                    //  $addFields: {
-                    //    doc_date:{$month : "$transdate"},
-                    //    //month_date: {"$month": new Date() } 
-                    //    }
-                    //},
+                    {
+                      $lookup: {
+                        from: "spendingplans",
+                        localField: "mycategories.mycategoryId",
+                        foreignField: "_id",
+                        as: "spcategory",
+                      },
+                    },
+                    {
+                      $unwind: {
+                        path:"$spcategory",
+                      preserveNullAndEmptyArrays: true
+                      }
+                    },
                     {
                       $project: {
                         transdate:1,
@@ -81,6 +89,7 @@ export async function GET(request){
                         },
                         title: 1,
                         amount:1,
+                        spcategory:"$spcategory"
                         
                         //doc_date:1
                       }

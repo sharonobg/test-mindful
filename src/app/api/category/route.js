@@ -9,9 +9,9 @@ export async function GET(request){
     //send data as JSON
     try{
         //await connect();
-        const session = await getServerSession(authOptions);
+        //const session = await getServerSession(authOptions);
         //const sessionUser = session?.user?._id;
-        const categories= await Category.find();
+        const categories= await Category.find().sort({ title: 1 });
         
         return NextResponse.json(
             {categories},

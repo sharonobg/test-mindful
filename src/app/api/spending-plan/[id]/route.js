@@ -1,11 +1,10 @@
-import connect from "../../../../libs/mongodb";
 import{verifyToken} from '../../../../libs/jwt'
-import Transaction from "../../../../models/transactionModel";
+import Spendingplan from "../../../../models/spendingplanModel";
 
 export async function GET(req,{params:{id}}){
     try{
-    const transaction = await Transaction.findById(id).populate("authorId").select('-password')
-    return new Response(JSON.stringify(transaction),{status:200})
+    const spendingplan = await Spendingplan.findById(id).populate("authorId").select('-password')
+    return new Response(JSON.stringify(spendingplan),{status:200})
 } catch (error) {
     return new Response(JSON.stringify(null),{status:500})
 }
@@ -23,14 +22,14 @@ export async function PUT(req,{params:{id}}){
         //const id = ctx.params.id
         const body = await req.json()
         //console.log('body befor breaks: ',body)
-        const transaction = await Transaction.findById(id).populate("authorId");
-        //console.log('id page transaction: ',transaction)
-        if(transaction?.authorId?._id.toString() !== decodedToken._id.toString()){
-            return new Response(JSON.stringify({message:"Only author can update his transaction"}),{status:403})
+        const spendingplan = await Spendingplan.findById(id).populate("authorId");
+        console.log('id page spendingplan: ',spendingplan)
+        if(spendingplan?.authorId?._id.toString() !== decodedToken._id.toString()){
+            return new Response(JSON.stringify({message:"Only author can update his spendingplan"}),{status:403})
         }
-        const updatedTransaction = await Transaction.findByIdAndUpdate(id, {$set:{...body} } ,{new: true})
+        const updatedSpendingplan = await Spendingplan.findByIdAndUpdate(id, {$set:{...body} } ,{new: true})
     
-    return new Response(JSON.stringify(updatedTransaction),{status: 200})
+    return new Response(JSON.stringify(updatedSpendingplan),{status: 200})
 
 
     } catch(error) {
@@ -52,13 +51,13 @@ export async function DELETE(req, { params }){
         return new Response(JSON.stringify({error: "unauthorized (wrong or expired token)"}),{status:403})
     }
     try{
-        const transaction = await Transaction.findById(id).populate("authorId");
-        if(transaction?.authorId?._id.toString() !== decodedToken._id.toString()){
-            return new Response(JSON.stringify({message:"Only author can delete his transaction"}),{status:403})
+        const spendingplan = await Spendingplan.findById(id).populate("authorId");
+        if(spendingplan?.authorId?._id.toString() !== decodedToken._id.toString()){
+            return new Response(JSON.stringify({message:"Only author can delete his spendingplan"}),{status:403})
         }
         
-        await Transaction.findByIdAndDelete({id })
-        return new Response(JSON.stringify({message:"Transaction deleted"}),{status: 200})
+        await Spendingplan.findByIdAndDelete({id })
+        return new Response(JSON.stringify({message:"Spendingplan deleted"}),{status: 200})
     } catch(error) {
         console.log('Error: ',error);
         return new Response(JSON.stringify(null),{status:500})

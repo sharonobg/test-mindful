@@ -89,11 +89,10 @@ export async function GET(request){
                         month: "$month",
                         year: "$year",
                     }
-                    
-                    ,"amount": {$sum: "$amount"}}//this groups by 
+                    ,"amount": {$sum: "$amount"}}
+                  //this groups by 
                 //"$group" : {_id: "$categoryId","amount": {$sum: "$amount"}}//this groups by descr
             },
-            
             {
                 "$sort": {
                   "year": -1,
@@ -101,13 +100,8 @@ export async function GET(request){
                   //"name": 1
                 }
             }
-            
           ])
-
-
-
             //console.log('transaction-totals',transactionstotal)
-        
         return new Response(JSON.stringify(spendingtotal),{status:200})
     }catch(error){
         return new Response(JSON.stringify(null), {status:500})

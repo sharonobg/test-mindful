@@ -28,12 +28,20 @@ export async function GET(request){
             //  }
             //  
             //},
+            { 
+              $addFields: {
+                month_date: {"$month": new Date() } ,
+                year_date: {"$year": new Date() }
+                }
+            },
             {
               $project: {
                 //month : {$month : "$transdate"}, 
                 //year : {$year :  "$transdate"},
                 month : {$toString:{$month : "$transdate"}}, 
                 year : {$toString:{$year :  "$transdate"}},
+                month_date:1,
+                year_date:1,
                 //date:{
                 //  month : $month, 
                 //  year : $year,
@@ -51,6 +59,8 @@ export async function GET(request){
              _id:{
                year:"$year",
                month:"$month",
+               month_date:"$month_date",
+              year_date:"$year_date",
              },
              count:{"$sum":"$count"}
            },

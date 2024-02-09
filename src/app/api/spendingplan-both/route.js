@@ -2,10 +2,10 @@
 import{verifyToken} from '../../../libs/jwt'
 import {NextResponse} from "next/server";
 import Transaction from "../../../models/transactionModel";
-//import Category from "../../../models/categoryModel";
+import Category from "../../../models/categoryModel";
 import {getServerSession} from "next-auth"
 import {authOptions}from"../auth/[...nextauth]/route"
-
+import Spendingplan from "../../../models/spendingplanModel";
 
 //import mongoose,{models,Schema} from "mongoose";
 
@@ -43,6 +43,44 @@ export async function GET(request){
             }},
             
              //WORKS
+             {
+                "$lookup": {
+                  "from": "spendingplans",
+                  "let": {
+                    
+                    mycategoriesId: "$mycategories._id",
+                    categoryId: {"$toObjectId": "$categoryId"}
+                  },
+                  "pipeline": [
+                    //{
+                    //  $match: {
+                    //    $expr: {
+                    //      $eq: [
+                    //        "$$mycategoriesId",
+                    //        "$$categoryId"
+                    //      ]
+                    //    }
+                    //  }
+                    //},
+                    {
+                        "$project": {
+                          year : {$year:"$planmonthyear"},
+                          month : {$month : "$planmonthyear"}, 
+                          "mycategories": {
+                              mycategoryId:"$mycategories.mycategoryId",
+                              planamount:"$mycategories.planamount",
+                              //"title": {
+                                  //$toLower: "$categories.title"
+                                },
+                              //"descr": "$category.descr",
+                          }
+                    }
+                      
+                  ],
+                  "as": "spendingplan"
+                },
+                
+              },
              {
                 "$lookup": {
                   "from": "categories",
@@ -108,16 +146,36 @@ export async function GET(request){
                   descr: 1,
                   amount:{$sum: "$amount"},
                   doc_date:1,
-                  month_date:1
+                  month_date:1,
+                  //spending plan:
+                  spyear : {$year:"$planmonthyear"},
+                  spmonth : {$month : "$planmonthyear"}, 
+                  "mycategories": {
+                  mycategoryId:"$mycategories.mycategoryId",
+                  planamount:"$mycategories.planamount",
+                  }
                 }
               },
-           
+              {
+                "$addFields": {
+                  "allLookup": {
+                    "$setUnion": [
+                      "$spendingplan",
+                      "$category"
+                    ]
+                  }
+                }
+              },
               {
                 "$group" : {
                     _id:
                     { year: "$year",
                       month:"$month",
-                      title:"$title"}
+                      title:"$title",
+                      "mycategories": {
+                        mycategoryId:"$mycategories.mycategoryId",
+                        planamount:"$mycategories.planamount",
+                        }}
                     
                     ,"amount": {$sum: "$amount"},
                     

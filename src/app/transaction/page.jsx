@@ -42,7 +42,7 @@ const CreateTransaction = () => {
         }
         try{
             //const transdate = new Date().toISOString();
-            console.log('transdate react-datepicker: ',transdate)
+            //console.log('transdate react-datepicker: ',transdate)
             //const amount = parseFloat(amount).toFixed(2);
             const res = await fetch('http://localhost:3000/api/transaction',{
                 headers:{
@@ -66,7 +66,8 @@ const CreateTransaction = () => {
                 throw new Error("Error on auth")
             }
             const transaction = await res.json();
-            console.log('transaction ln65',transaction)
+            //console.log('transaction ln65',transaction)
+            router.refresh()
             router.push(`/transaction/${transaction?._id}`)
         }catch (error) {
 

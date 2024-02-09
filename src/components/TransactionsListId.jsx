@@ -20,7 +20,7 @@ const getTransactions = async () => {
                 throw new Error("Failed to fetch transactions");
             }
             //console.log('res in route: ',res)
-            console.log('transadctionsListId props ln 23',props) 
+            //console.log('transadctionsListId props ln 23',props) 
             return res.json();
         }catch(error){
             console.log("Error finding transactions",error)
@@ -29,15 +29,13 @@ const getTransactions = async () => {
 
 const {transactions} = await getTransactions();
 const newsearchParams = new URLSearchParams(props);
-console.log('comp newsearchParams',newsearchParams)
+//console.log('comp newsearchParams',newsearchParams)
+//console.log('comp transactionslistid',transactions)
 
     return(
        <>
        <div className="mt-5 flex flex-col place-items-center">
        <h1>My Transactions: {props.fmonth}/{props.fyear}</h1>
-       <h3>Choose another month: make a list from the available transdates </h3>
-       <h3>Choose another category: filter categories</h3>
-       
        <div className="mt-5 bg-white  flex flex-row h-auto p-0 gap-2 my-0 border-2 border-collapse border-blue-600"> 
             <div className="font-bold border-collapse border-r-2 border-amber-500 w-[100px] p-2">Month/Day/Year</div>
             <div className="font-bold border-collapse border-r-2 border-amber-500 w-[250px] p-2 flex-wrap">Description</div>
@@ -53,7 +51,7 @@ console.log('comp newsearchParams',newsearchParams)
             <div className="my2 flex flex-row h-auto p-0  my-0"> 
             
             { transaction.year == `${props.fyear}` && transaction.month == `${props.fmonth}` && transaction.month == `${props.fmonth}` && 
-            (`${props.category}` === 'all' ||  transaction.title == `${props.category}`) && 
+            (`${props.category}` === 'all-categories' ||  transaction.title == `${props.category}`) && 
             
                 
                     <>

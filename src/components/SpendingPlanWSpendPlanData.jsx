@@ -1,6 +1,43 @@
 import {headers} from "next/headers"
 
+const getPlans = async () => {
+    try{
+        const res = await fetch("http://localhost:3000/api/spending-plan-alt",{
+           cache: 'no-store',
+           method: "GET",
+           headers: headers(),
+        });
+        if(!res.ok){
+            throw new Error("Failed to fetch plan");
+        }
+        const data = await res.json();
+        console.log('data',data);
+        //return res.json();
+        return data
+    }catch(error){
+        console.log("Error finding plan",error)
 
+    }
+    
+}
+const getPlansFirst = async () => {
+    try{
+        const res = await fetch("http://localhost:3000/api/spending-plan",{
+           cache: 'no-store',
+           method: "GET",
+           headers: headers(),
+        });
+        if(!res.ok){
+            throw new Error("Failed to fetch plan");
+        }
+        
+        return res.json();
+    }catch(error){
+        console.log("Error finding plan",error)
+
+    }
+    
+}
 const getTotals = async () => {
     try{
         const res = await fetch("http://localhost:3000/api/transactiontitle-totals",{
@@ -51,8 +88,10 @@ const getCategories = async () => {
 
 }
 export default async function SPCategoryView(props) {
-    const {categories} = await getCategories();
+    //const {categories} = await getCategories();
     const transactiontotals = await getTotals();
+    const spendingplannew = await getPlans();
+    const spendingplannotalt = await getPlansFirst(); 
     const grandtotals = await getGrandTotals();
     const getMonth = new Date().getMonth()+1
     const newD = new Date()
@@ -65,9 +104,10 @@ export default async function SPCategoryView(props) {
     //}else{
     // propscategory = `${props.category}`
     //}
-
-    
-   //console.log('SPCategoryView grandtotals',grandtotals)
+//const mycategoriesdata = getPlans();
+console.log('spending plan props',props)
+    console.log('spending plan data alt',spendingplannew)
+   //console.log('SPCategoryView transactiontotals',transactiontotals)
     return(
        <>
       
@@ -85,13 +125,36 @@ export default async function SPCategoryView(props) {
         </div>
         <div className="flex flex-row  w-full min-h-[50%] bg-white">
         <div className="font-bold border border-amber-500 w-[200px] p-2 text-left">Category Notes</div>
-        <div className="font-bold border border-amber-500 w-[200px] p-2 text-left">Some Categoryu</div>
-        <div className="font-bold border border-amber-500 w-[200px] p-2 text-left">150.00</div>
+        <div className="font-bold border border-amber-500 w-[200px] p-2 text-left">Category Name</div>
+        <div className="font-bold border border-amber-500 w-[200px] p-2 text-left">PlanAmount</div>
         <div className="font-bold border border-amber-500 w-[200px] py-2">0.00</div>
         <div className="font-bold border border-amber-500 w-[100px] p-2 text-left">150.00</div>
         <div className="font-bold border border-amber-500 w-[200px] p-2 text-left">not done</div>
         </div>
+        
+        {spendingplannotalt?.length > -1 ? (spendingplannotalt.map((spendingpl,index) =>
+        <>
+        <h1>Hello </h1>
+        <div key={index} className="flex flex-row  w-full min-h-[50%] bg-white">
        
+        <div className="border border-amber-500 w-[200px] p-2 text-left">Month:spendingpl?._id.</div>
+        {/*<div className="border border-amber-500 w-[200px] p-2 text-left">Year:spendingplan?.year</div>
+        
+        <div className="border border-amber-500 w-[200px] p-2 text-left">My categories</div>
+        
+        <div className="border border-amber-500 w-[200px] p-2 text-left">{category?.mycategoryId}</div>
+        
+        <div className="border border-amber-500 w-[200px] p-2 text-left">{category?.planamount}</div>
+        
+        <div className="border border-amber-500 w-[200px] py-2">transactiontotal amount</div>
+        <div className="border border-amber-500 w-[100px] p-2 text-left">Difference</div>
+        <div className="border border-amber-500 w-[200px] p-2 text-left">Explain Diff</div>
+         */}
+        </div>
+   
+        </>)):("cant find plan")
+       
+       }
        {transactiontotals?.length > -1 ? (transactiontotals.map((transactiontotal,index) =>
         
         <div key={index} className="flex flex-row  w-full min-h-[50%] bg-white">
