@@ -6,6 +6,8 @@ import TransactionsListId from '../components/TransactionsListId';
 import SimpleFilters from '../components/SimpleFilters';
 import SpendingPlan from '../components/SpendingPlan';
 import SPWSpendPlanWaddfields from '../components/SPWSpendPlanWaddfields';
+import SPWSpendPlanCombo from '../components/SPWSpendPlanCombo';
+import Combo21324 from '../components/Combo21324';
 import Categories from '../components/Categories';
 import {getServerSession} from "next-auth";
 
@@ -42,6 +44,8 @@ console.log('propCategory:',filtercategory)
       <h1>Month:{filtermonth}/{filteryear}     Category: {filtercategory ? filtercategory : "All-Categories"}</h1>
       <SimpleFilters />
       <Categories />
+      <Combo21324 fyear={filteryear} fmonth={filtermonth} />
+<SPWSpendPlanCombo fyear={filteryear} fmonth={filtermonth} />
     <SPWSpendPlanWaddfields fyear={filteryear} fmonth={filtermonth} />
       <SpendingPlan fyear={filteryear} fmonth={filtermonth} category={filtercategory} />
       {/*<TransactionsListId fmonth={searchParams?.fmonth|thisMonth} category={searchParams?.category|undefined}/>*/}

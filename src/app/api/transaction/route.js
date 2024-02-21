@@ -45,7 +45,7 @@ export async function GET(request,params){
                       year : {$year :  "$transdate"},
                       "transdate":1,
                      "descr":1,
-                     categoryid:"$categoryId",
+                     categoryId:"$categoryId",
                      title: { $toLower : '$title' },
                       //title: 1,//category title,
                       amount:1
@@ -72,7 +72,7 @@ export async function GET(request,params){
                 day : {$dayOfMonth : "$transdate"},
                 month : {$month : "$transdate"}, 
                 year : {$year :  "$transdate"},
-                categoryid:"$categoryId",
+                categoryId:"$categoryId",
                 title: { $toLower : "$category.title" },
                 "amount":1,
                 month_date:1

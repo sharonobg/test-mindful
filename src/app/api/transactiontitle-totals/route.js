@@ -44,93 +44,96 @@ export async function GET(request){
             
              //WORKS
              {
-                "$lookup": {
-                  "from": "categories",
-                  "let": {
-                    categoryId: {
-                      //"$toObjectId": "$categoryId"
-                      "$toObjectId": "$categoryId"
+              "$lookup": {
+                "from": "categories",
+                "let": {
+                  categoryId: {
+                    //"$toObjectId": "$categoryId"
+                    "$toObjectId": "$categoryId"
+                  }
+                },
+                "pipeline": [
+                  {
+                    $match: {
+                      $expr: {
+                        $eq: [
+                          "$_id",
+                          "$$categoryId"
+                        ]
+                      }
                     }
                   },
-                  "pipeline": [
-                    {
-                      $match: {
-                        $expr: {
-                          $eq: [
-                            "$_id",
-                            "$$categoryId"
-                          ]
-                        }
-                      }
-                    },
-                    //{ 
-                    //  $addFields: {
-                    //    doc_date:{$month : "$transdate"},
-                    //    //month_date: {"$month": new Date() } 
-                    //    }
-                    //},
-                    {
-                      $project: {
-                        transdate:1,
-                        descr: 1,
+                  //{ 
+                  //  $addFields: {
+                  //    doc_date:{$month : "$transdate"},
+                  //    //month_date: {"$month": new Date() } 
+                  //    }
+                  //},
+                  {
+                    $project: {
+                      transdate:1,
+                      descr: 1,
+                      month : {$month : "$transdate"}, 
+                      year : {$year :  "$transdate"},
+                      date:{
                         month : {$month : "$transdate"}, 
                         year : {$year :  "$transdate"},
-                        date:{
-                          month : {$month : "$transdate"}, 
-                          year : {$year :  "$transdate"},
-                        },
-                        title: 1,
-                        amount:1,
-                        
-                        //doc_date:1
-                      }
-                    },
-                  ],
-                  "as": "category"
-                },
-                
+                      },
+                      title: 1,
+                      amount:1,
+                      categoryId:1
+                      
+                      //doc_date:1
+                    }
+                  },
+                ],
+                "as": "category"
               },
-              {
-                "$unwind": "$category"
-              },
-              { 
-                $addFields: {
-                  month_date: {"$month": new Date() } 
-                  }
-              },
-              {
-                $project: {
-                  _id: 0,
-                  month : {$month : "$transdate"}, 
-                  year : {$year :  "$transdate"},
-                  //title: "$category.title",
-                  title: {$toLower:"$category.title"},
-                  descr: 1,
-                  amount:{$sum: "$amount"},
-                  doc_date:1,
-                  month_date:1
-                }
-              },
-           
-              {
-                "$group" : {
-                    _id:
-                    { year: "$year",
-                      month:"$month",
-                      title:"$title"}
-                    
-                    ,"amount": {$sum: "$amount"},
-                    
-                  }//this groups by 
-                //"$group" : {_id: "$categoryId","amount": {$sum: "$amount"}}//this groups by descr
+              
             },
-            
             {
-                "$sort": {
-                  "year": -1,
-                  "month":-1
+              "$unwind": "$category"
+            },
+            { 
+              $addFields: {
+                month_date: {"$month": new Date() } 
                 }
             },
+            {
+              $project: {
+                _id: 0,
+                month : {$month : "$transdate"}, 
+                year : {$year :  "$transdate"},
+                //title: "$category.title",
+                title: {$toLower:"$category.title"},
+                categoryId:1,
+                descr: 1,
+                amount:{$sum: "$amount"},
+                doc_date:1,
+                month_date:1
+              }
+            },
+          
+            {
+              "$group" : {
+                  _id:
+                  { year: "$year",
+                    month:"$month",
+                    title:"$title",
+                    categoryId:"$categoryId"}
+                  
+                  ,"amount": {$sum: "$amount"},
+                  
+                }//this groups by 
+              //"$group" : {_id: "$categoryId","amount": {$sum: "$amount"}}//this groups by descr
+          },
+          
+          {
+              "$sort": {
+                "year": -1,
+                "month":-1
+              }
+          },
           
           ])
 

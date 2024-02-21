@@ -16,13 +16,14 @@ import "react-datepicker/dist/react-datepicker.css";
     
 const Edit = (ctx) => {
     const [spendingplanDetails,setSpendingplanDetails]=useState([])
-    const [categories,setCategories]=useState([])
-    const [mycategories,setMycategories]=useState([])
+    //const [categories,setCategories]=useState([])
+    //const [mycategories,setMycategories]=useState([])
+    //const [categoryTitle,setCategoryTitle]= useState("")
     const [planmonthyear,setPlanmonthyear]=useState(new Date())
     const [planamount,setPlanamount]=useState("")
     const [mycategoryId,setMycategoryId]= useState("")
     const [categorynotes,setCategorynotes]= useState("")
-    const [categoryTitle,setCategoryTitle]= useState("")
+    
     const [isChecked, setIsChecked] = useState(false);
     const {data:session,status} = useSession();
     const router= useRouter();
@@ -45,15 +46,14 @@ useEffect(() => {
        )
        const spendingplan = await res.json()
        //console.log('fetchSpendingPlan',spendingplan)
-       const planmonthyearPrev = planmonthyear;
-       const dataamount=mycategories.planamount.$numberDecimal;
+       const planmonthyearPrev = spendingplan.mycategories.planmonthyear;
+       const dataamount=spendingplan.mycategories.planamount.$numberDecimal;
+       
        setSpendingplanDetails({
             planmonthyear:planmonthyearPrev,
-            mycategoryId:mycategories.mycategoryId,
-            planamount:mycategories.dataamount,
-            mycategoryId:mycategories.mycategoryId,
-            planamount:mycategories.dataamount,
-            categorynotes: mycategories.categorynotes
+            mycategoryId:spendingplan.mycategories.mycategoryId,
+            planamount:dataamount,
+            categorynotes: spendingplan.mycategories.categorynotes
             //authorId:session?.user._id
         })}
     fetchSpendingplan()
@@ -72,9 +72,10 @@ const handleSubmit= async (e) => {
     try{
         //const id = ctx.params.id;
         const body = {
-            planmonthyear,
+            mycategoryId,
             planamount,
-            categorynotes
+            categorynotes,
+            planmonthyear,
         }
         const res = await fetch(`http://localhost:3000/api/spendingplan/${ctx.params.id}`,{
     
@@ -163,27 +164,18 @@ return(
             <h2>Edit Spendingplan</h2>
             <form onSubmit={handleSubmit} className="flex flex-col flex-wrap gap-5 my-3">
              <DatePicker 
-             value={spendingplanDetails.transdate}
-             onChange={(date) => setTransdate(date)}
+             value={spendingplanDetails.planmonthyear}
+             onChange={(date) => setPlanmonthyear(date)}
              classname="border border-blue-600" 
                />
-                <input onChange={(e) => setDescr(e.target.value)}
+                <input onChange={(e) => setIsChecked(!isChecked)}
                 className="px-4 py-2 mt-4 mx-5 border border-green-200 text-green-500"
                 name="description"
                 placeholder="Description"
-                type="text"
-                defaultValue={spendingplanDetails.descr}
+                type="checkbox"
+                defaultValue={spendingplanDetails.isChecked}
                 />
-                <select 
-                onChange={(e) => setAcctype(e.target.value)}
-                type="text" 
-                value ={spendingplanDetails.acctype} 
-                >
-                <option value="debit">Debit</option>
-                <option value="cash">Cash</option>
-                <option value="bank_account">Bank Account</option>
-                <option value="other">Other</option>
-                </select>
+               
                 {/*<select onChange={(e) => setCategoryId(e.target.value)}
                 className="px-4 py-2 mt-4 mx-5 border border-green-200 text-green-500"
                 name="categoryTitle"

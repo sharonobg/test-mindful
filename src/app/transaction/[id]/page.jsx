@@ -72,7 +72,11 @@ const handleSubmit= async (e) => {
     try{
         //const id = ctx.params.id;
         const body = {
-            transdate,descr,acctype,categoryId,amount
+            transdate,
+            descr,
+            acctype,
+            categoryId,
+            amount
         }
         const res = await fetch(`http://localhost:3000/api/transaction/${ctx.params.id}`,{
     
@@ -159,12 +163,14 @@ return(
     <>
         <div className="flex flex-col w-full place-items-center border-l-orange-100">
             <h2>Edit Transaction</h2>
+            <pre>Mytestplan:{JSON.stringify(transactionDetails, null, 2)}</pre>
             <form onSubmit={handleSubmit} className="flex flex-col flex-wrap gap-5 my-3">
              <DatePicker 
              value={transactionDetails.transdate}
              onChange={(date) => setTransdate(date)}
              classname="border border-blue-600" 
                />
+               <h2>{new Date(transdate).toString()}</h2>
                 <input onChange={(e) => setDescr(e.target.value)}
                 className="px-4 py-2 mt-4 mx-5 border border-green-200 text-green-500"
                 name="description"
@@ -172,6 +178,8 @@ return(
                 type="text"
                 defaultValue={transactionDetails.descr}
                 />
+               
+               <h2>{descr}</h2>
                 <select 
                 onChange={(e) => setAcctype(e.target.value)}
                 type="text" 
@@ -182,6 +190,7 @@ return(
                 <option value="bank_account">Bank Account</option>
                 <option value="other">Other</option>
                 </select>
+                <h2>{acctype}</h2>
                 <select onChange={(e) => setCategoryId(e.target.value)}
                 className="px-4 py-2 mt-4 mx-5 border border-green-200 text-green-500"
                 name="categoryTitle"
@@ -191,8 +200,12 @@ return(
                 >
                     {categories?.length > -1 ? 
                     (categories.map((category) => 
+                    <>
+                    
                         <option key={category._id} id={category._id} value={category._id}>{category.title} : {category._id}</option>
 
+                        
+                        </>
                    ) ): "no categories are available"}</select>
                 
                 <input onChange={(e) => setAmount(e.target.value)}
@@ -201,6 +214,7 @@ return(
                 type="string"
                 defaultValue={transactionDetails.amount}
                 />
+                <h2>{amount}</h2>
                 <button className="bg-blue-400 rounded-md p-3 text-white font-semibold" type="submit">Edit Transaction</button>
             </form>
             <div className="flex gap-2 flex-row ">

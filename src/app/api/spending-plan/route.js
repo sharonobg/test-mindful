@@ -28,8 +28,6 @@ export async function GET(request,params){
               year  : {$year : "$transdate"},
               amount:{$sum: "$amount"},
               categoryId: {"$toString": "$categoryId"},
-              
-              
              },
               "pipeline": [
       
