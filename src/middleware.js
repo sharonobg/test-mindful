@@ -1,31 +1,45 @@
-import {NextResponse} from "next/server";
+import {NextRequest, NextResponse} from "next/server";
 
-export function middleware(){
+
     const allowedOrigins = [
         'http://localhost:3000/',
         'https://mindful-spending-22924.vercel.app/',
         'https://mindful-spending.vercel.app/',
     ]
-    const res = NextResponse.next()
-    req.headers.get("origin")
-    console.log('origin',origin)
-    if(allowedOrigins.includes(origin)){
-        res.headers.append('Access-Control-Allow-Origin',origin)
+    const corsOptions = {
+        'Access-Control-Allow-Headers':
+        'Content-Type, Authorization, X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Date, X-Api-Version',
+        'Access-Control-Allow-Credentials': "true",
+        'Access-Control-Allow-Methods': 'GET,DELETE,PATCH,POST,PUT',
     }
-    // add the CORS headers to the response
-    res.headers.append('Access-Control-Allow-Credentials', "true")
-    //res.headers.append('Access-Control-Allow-Origin', '*') // replace this your actual origin- NG for using creds
-    res.headers.append('Access-Control-Allow-Methods', 'GET,DELETE,PATCH,POST,PUT')
-    res.headers.append(
-        'Access-Control-Allow-Headers',
-        'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version'
-    )
+    export function middleware(request){
+        // Check the origin from the request
+      const origin = request.headers.get('origin') ?? ''
+      const isAllowedOrigin = allowedOrigins.includes(origin)
+      // Handle preflighted requests
+      const isPreflight = request.method === 'OPTIONS'
+      if (isPreflight) {
+        const preflightHeaders = {
+          ...(isAllowedOrigin && { 'Access-Control-Allow-Origin': origin }),
+          ...corsOptions,
+        }
 
-    return res
+        return NextResponse.json({}, { headers: preflightHeaders })
+  }
+    //simple requests
+    const response = NextResponse.next()
+  if (isAllowedOrigin) {
+    response.headers.set('Access-Control-Allow-Origin', origin)
+  }
+  Object.entries(corsOptions).forEach(([key, value]) => {
+    response.headers.set(key, value)
+  })
+
+    console.log('origin',origin)
+    return response
 }
 
 //export{default} from 'next-auth/middleware'
-
 export const config = {
     matcher:[
     "/transaction/:path*",
