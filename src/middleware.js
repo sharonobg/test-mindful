@@ -35,7 +35,7 @@ import {NextRequest, NextResponse} from "next/server";
     response.headers.set(key, value)
   })
 
-    console.log('origin',origin)
+    console.log('response',response)
     return response
 }
 

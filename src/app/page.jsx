@@ -50,6 +50,7 @@ console.log('propCategory:',filtercategory)
       </>
       ):(
         <Link href="/login">
+        {session?.user?.name ? (<h2>{session?.user?.name}</h2>):(<h2>You Are Not logged in</h2>)}
         <h1>Please log in to see your Spending Plan</h1>
         </Link>
       )

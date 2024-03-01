@@ -7,8 +7,8 @@ import React,{useState} from 'react';
 export default function Navbar() {
     const [showDropdown, setShowDropdown] = useState(false);
     //const [loggedIn, setLoggedIn] = useState(false);
-    const handleShowDropdown = () => setShowDropdown(prev => true)
-    const handleHideDropdown = () => setShowDropdown(prev => false)
+    // const handleShowDropdown = () => setShowDropdown(prev => true)
+    // const handleHideDropdown = () => setShowDropdown(prev => false)
     const {data: session} = useSession()
     //const loggedIn = false;
 
@@ -17,7 +17,7 @@ export default function Navbar() {
             <Link className="text-white font-bold" href = {"/"}>Home</Link>
             <Link className="text-white font-bold" href = {"/transaction"}>Add a transaction</Link>
             
-            <div className="text-white font-bold">Logged in as: {session?.user?.email}</div>
+            <div className="text-white font-bold">{session? `Logged in with ${session.user?.email}` : "Please sign In"}</div>
             
             <div className="flex flex-row ">
             {session?.user

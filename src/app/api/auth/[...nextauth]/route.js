@@ -23,16 +23,15 @@ export const authOptions =
                     username: {label: 'Email', type: 'email',placeholder:'email@example.com'},
                     password:{label: 'Password',type:'password'}
                 },
-                async authorize(credentials,req){
-                    
-                    const {email,password} = credentials
-                    connect();
-                    const user = await User.findOne({email})
-                    
-                    if(!user){ 
+                async authorize(credentials){
+                    try{
+                        connect();
+                        const {email,password} = credentials
+                        const user = await User.findOne({email})
+                        if(!user){ 
                         
-                        throw new Error("Invalid input")
-                }
+                            throw new Error("Invalid input in authOptions Try")
+                    }
                     //2 paramenters:
                     //1 normal password
                     //1 hashed password
@@ -54,6 +53,11 @@ export const authOptions =
                             ...currentUser,
                             accessToken
                         }
+                    }
+
+
+                    } catch(err) {
+                        throw new Error("Invalid input in authOptions Catch")
                     }
                 }
             })
