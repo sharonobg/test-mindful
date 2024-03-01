@@ -30,7 +30,7 @@ export const config = {
     matcher:[
     "/transaction/:path*",
     "/addCategory",  
-    //"/api/:path*",
+    "/api/:path*",
     "/my-spending-plan", 
 ]
 }
