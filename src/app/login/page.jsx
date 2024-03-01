@@ -15,7 +15,13 @@ const Login = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("")
     const [loggedIn,setLoggedIn] = useState(false);
-const {data:session}= useSession();
+    const {data:session}= useSession();
+    
+    useEffect( ()=>{
+        fetch("/api/logintest")
+        .then((res) => res.json())
+        .then((data)=>setLoggedIn(true));
+    },[]);
 
     const handleSubmit= async (e) => {
         e.preventDefault();
@@ -27,12 +33,8 @@ const {data:session}= useSession();
             toast.error("Password must be more than 6");
             return
         }*/
-        useEffect( ()=>{
-            fetch("/api/logintest")
-            .then((res) => res.json())
-            .then((data)=>setLoggedIn(true));
-        },[]);
         
+
         try{
             const res = await signIn('credentials', {email,password,redirect:false})
             if (res.ok){
