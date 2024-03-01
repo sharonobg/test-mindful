@@ -6,12 +6,17 @@ import GithubButton from '../../components/GithubButton';
 import 'react-toastify/dist/ReactToastify.css';
 import {useRouter} from 'next/navigation';
 import {signIn,signOut} from 'next-auth/react'
+import {useSession} from "next-auth/react";
+
 
 const Login = () => {
+
     const router = useRouter();
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("")
     const [loggedIn,setLoggedIn] = useState(false);
+const {data:session}= useSession();
+
     const handleSubmit= async (e) => {
         e.preventDefault();
         /*if (password === ''||email === ''){
@@ -22,11 +27,17 @@ const Login = () => {
             toast.error("Password must be more than 6");
             return
         }*/
+        useEffect( ()=>{
+            fetch("/api/logintest")
+            .then((res) => res.json())
+            .then((data)=>setLoggedIn(true));
+        },[]);
+        
         try{
             const res = await signIn('credentials', {email,password,redirect:false})
             if (res.ok){
                 setLoggedIn(true)
-                //console.log('res',res)
+                console.log('res',res)
                 router.push("/")
                 //toast.success("success")
 

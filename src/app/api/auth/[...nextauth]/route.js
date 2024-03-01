@@ -62,6 +62,7 @@ export const authOptions =
                 }
             })
         ],
+        debug: true,
         secret: process.env.NEXTAUTH_SECRET,
         //adapter: MongoDBAdapter(clientPromise),
         pages: {
