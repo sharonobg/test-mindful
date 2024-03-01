@@ -1,5 +1,5 @@
 import {MongoClient}from 'mongodb';
-const URI = process.env.MONGODB_URI;
+const URI = process.env.NEXT_PUBLIC_MONGODB_URI;
 const options = {}
 if(!URI) throw new Error('Please add Mongo URI');
 let client = new MongoClient(URI,options)
