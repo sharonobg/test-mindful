@@ -9,7 +9,7 @@ import mongoose from "mongoose";
 //        console.log("no connection to Mongo",error);
 //    }
 //};
-const MONGODB_URI = process.env.NEXT_PUBLIC_MONGODB_URI;
+const MONGODB_URI = process.env.MONGODB_URI;
 if(!MONGODB_URI){throw new Error('Please define a MONGODB_URI')}
 let cached = global.mongoose;
 if(!cached){
