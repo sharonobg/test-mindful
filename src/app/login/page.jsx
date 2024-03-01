@@ -43,7 +43,7 @@ const Login = () => {
         <div className="flex flex-col w-full place-items-center">
             <div className="flex flex-col border p-4 border-blue-400 shadow-lg rounded-lg w-[50%] place-items-center">
                 <h2 className="text-3xl font-semibold text-blue-400">Log In With Email and Pw</h2>
-                <form onSubmit={handleSubmit} className="flex flex-row flex-wrap gap-5 my-3">
+                <form action='/api/auth/callback/credentials' onSubmit={handleSubmit} className="flex flex-row flex-wrap gap-5 my-3">
                    
                     <input
                         className="p-2 border border-gray-300 rounded-md"
