@@ -2,12 +2,13 @@ import {NextResponse} from "next/server";
 
 export function middleware(){
     const allowedOrigins = [
-        'http://localhost:3000',
-        'https://mindful-spending-22924.vercel.app',
-        'https://mindful-spending.vercel.app',
+        'http://localhost:3000/',
+        'https://mindful-spending-22924.vercel.app/',
+        'https://mindful-spending.vercel.app/',
     ]
     const res = NextResponse.next()
     req.headers.get("origin")
+    console.log('origin',origin)
     if(allowedOrigins.includes(origin)){
         res.headers.append('Access-Control-Allow-Origin',origin)
     }
@@ -23,12 +24,13 @@ export function middleware(){
     return res
 }
 
-export{default} from 'next-auth/middleware'
+//export{default} from 'next-auth/middleware'
 
-export const config = {matcher:[
-   // "/transaction/:path*",
-    //"/addCategory",  
-    "/api/:path*",
+export const config = {
+    matcher:[
+    "/transaction/:path*",
+    "/addCategory",  
+    //"/api/:path*",
     "/my-spending-plan", 
 ]
 }
