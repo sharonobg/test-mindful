@@ -13,7 +13,7 @@ import {useSession} from 'next-auth/react'
 //categories with an amount > 0 or previously checked will be checked on load. These will be retrieved for the transaction-titles-totals
 //need section - available categories not in spending plan (could be via sort)
 {/*export default function MySpendingPlan() {*/}
-const createSpendingPlan = () => {
+const CreateSpendingPlan = () => {
   const [selections,setSelections]=useState([])
   const[selectedcats,setSelectedcats]=useState([])
     const [category,setCategory]=useState("")
@@ -211,4 +211,4 @@ console.log('set my categories',mycategories)
         
         </> )
 }
-export default createSpendingPlan
+export default CreateSpendingPlan

@@ -81,7 +81,7 @@ export default async function SPCategoryView(props) {
     return(
        <>
        <h1>COMBO PLANS</h1>
-         <pre>GET comboplans:{JSON.stringify(comboplans, null, 2)}</pre>
+        {/*} <pre>GET comboplans:{JSON.stringify(comboplans, null, 2)}</pre>*/}
 
        <div className="my-5 flex flex-col place-items-center">
        <h1>Combo:  {props.fmonth}/{props.fyear}<br />(Combo plans 2/17)</h1>

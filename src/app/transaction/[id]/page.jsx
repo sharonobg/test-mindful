@@ -3,8 +3,8 @@
 import React, {useState,useEffect} from 'react'
 import {useSession}from 'next-auth/react';
 import {useRouter} from 'next/navigation'
-import Link from "next/link"
-import { BsFillPencilFill } from 'react-icons/bs'
+//import Link from "next/link"
+//import { BsFillPencilFill } from 'react-icons/bs'
 import { AiFillDelete } from 'react-icons/ai'
 import {ToastContainer ,toast} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
