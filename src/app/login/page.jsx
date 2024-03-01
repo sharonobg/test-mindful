@@ -1,5 +1,5 @@
 "use client"
-import React,{useState} from 'react';
+import React,{useState,useEffect} from 'react';
 import Link from 'next/link';
 import {ToastContainer ,toast,cssTransition,Bounce} from 'react-toastify';
 import GithubButton from '../../components/GithubButton';
