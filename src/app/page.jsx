@@ -43,7 +43,8 @@ console.log('propCategory:',filtercategory)
       <>
       <h1>Month:{filtermonth}/{filteryear}     Category: {filtercategory ? filtercategory : "All-Categories"}</h1>
       <SimpleFilters />
-      <Combo21324 fyear={filteryear} fmonth={filtermonth} />
+      <SPWSpendPlanCombo fyear={filteryear} fmonth={filtermonth}category={filtercategory} />
+      <Combo21324 fyear={filteryear} fmonth={filtermonth} category={filtercategory} />
       <SpendingPlan fyear={filteryear} fmonth={filtermonth} category={filtercategory} />
       {/*<TransactionsListId fmonth={searchParams?.fmonth|thisMonth} category={searchParams?.category|undefined}/>*/}
       <TransactionsListId fyear={filteryear} fmonth={filtermonth} category={filtercategory} />

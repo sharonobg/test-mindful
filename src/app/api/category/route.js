@@ -5,6 +5,10 @@ import Category from "../../../models/categoryModel";
 import {getServerSession} from "next-auth"
 import {authOptions}from"../auth/[...nextauth]/route"
 
+//session user can create a category- the session userId will be the categoryOwnerId which determines which categories are owned by the user
+//spending plan:
+//the category will be added to the users spending-plan and will appear in the list of mycategories which are checked(true): default categories and owned categories (sorted alpha)
+//followed by existing unchecked categories and owned categories
 export async function GET(request){
     //send data as JSON
     try{

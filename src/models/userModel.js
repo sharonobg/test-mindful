@@ -1,5 +1,5 @@
 import mongoose,{models,Schema} from "mongoose";
-
+//user role- admin role
 const UserSchema = new Schema(
     {
         username:{
@@ -7,7 +7,17 @@ const UserSchema = new Schema(
             required: true,
             unique:true,
             min:8,
-            max: 24
+            max: 24,
+           
+        },
+        role:{
+            type:String,
+            required:true,
+            enum: [
+                "admin_role",
+                "user_role",
+            ],
+            default:"user_role"
         },
         email:{
             type: String,

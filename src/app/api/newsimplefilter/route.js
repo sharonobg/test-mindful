@@ -73,12 +73,12 @@ export async function GET(request){
          //      count:1
          //  }
          //}
-        //{
-        //  "$sort": {
-        //    "year": 1,
-        //    //"month":-1
-        //      }
-        //  }
+        {
+         "$sort": {
+            "year": 1,
+          //  "month":-1
+             }
+         }
         
             
           

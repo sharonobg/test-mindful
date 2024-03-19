@@ -13,7 +13,7 @@ export async function GET(request,params){
         const yeardate = params
         const session = await getServerSession(authOptions);
         const sessionUser = session?.user?._id;
-        console.log('yeardate',yeardate)
+        //console.log('yeardate',yeardate)
         const transactions= await Transaction.aggregate([
           { $match: {
               $expr : { $eq: [ '$authorId' , { $toObjectId: sessionUser } ] } 
@@ -101,17 +101,17 @@ export async function GET(request,params){
 
 export async function POST(request){
     //await connect();
-    const accessToken = request.headers.get("authorization")
-    const token = accessToken.split(' ')[1];
-    const decodedToken = verifyToken(token);
-    if(!accessToken || !decodedToken){
-        return new Response(JSON.stringify({error: "unauthorized (wrong or expired token)"}),{status:403})
-    }
+    // const accessToken = request.headers.get("authorization")
+    // const token = accessToken.split(' ')[1];
+    // const decodedToken = verifyToken(token);
+    // if(!accessToken || !decodedToken){
+    //     return new Response(JSON.stringify({error: "unauthorized (wrong or expired token)"}),{status:403})
+    // }
     try{
         const body = await request.json();
-        console.log('body fr route',body)//ok
+        console.log('transaction body fr route',body)
         const newTransaction = await Transaction.create(body);
-        console.log('newTransaction fr route',newTransaction)
+        //console.log('newTransaction fr route',newTransaction)
         return new Response(JSON.stringify(newTransaction),{status: 201})
        
     }catch (error){

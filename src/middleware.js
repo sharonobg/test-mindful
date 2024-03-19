@@ -35,16 +35,32 @@ import {NextRequest, NextResponse} from "next/server";
     response.headers.set(key, value)
   })
 
-    console.log('response',response)
+   // console.log('response',response)
     return response
 }
-
+// switch(role){
+//   case "ADMIN":
+//     // Add the paths that the nurse can access here
+//     if (!request.nextUrl.pathname.startsWith("/admin")) {
+//       return NextResponse.redirect(new URL("/admin", request.url));
+//     }
+//     break;
+//   // case "OWNER":
+//   //   // Add the paths that the pathologist can access here
+//   //   if (!request.nextUrl.pathname.startsWith("/image")) {
+//   //     return NextResponse.redirect(new URL("/image", request.url));
+//   //   }
+//   //   break;
+//   default:
+//     return NextResponse.redirect(new URL("/login", request.url))
+// }
+;
 //export{default} from 'next-auth/middleware'
 export const config = {
     matcher:[
     "/transaction/:path*",
     "/addCategory",  
     "/api/:path*",
-    "/my-spending-plan", 
+    "/my-spending-plan/:path*"
 ]
 }

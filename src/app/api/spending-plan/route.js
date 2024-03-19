@@ -14,7 +14,7 @@ export async function GET(request,params){
         const session = await getServerSession(authOptions);
         const sessionUser = session?.user?._id;
         //const sessionUser = session?.user?._id;
-        console.log('yeardate',yeardate)
+        //console.log('yeardate',yeardate)
         const spendingplan = await Transaction.aggregate([
           {
 
@@ -79,8 +79,8 @@ export async function GET(request,params){
                   transactlookup:"$transactlookup.planmonth",
                   transactlookup:"$transactlookup.planyear",
                   transactlookup:"$transactlookup.mycategories",
-                  transactlookupcat:"$transactlookup.mycategories.mycategoryId",
-                  transactlookupamt:"$transactlookup.mycategories.planamount",
+                  //transactlookupcat:"$transactlookup.mycategories.mycategoryId",
+                  //transactlookupamt:"$transactlookup.mycategories.planamount",
                 }
                 
                 ,"amount": {$sum: "$amount"},
@@ -111,13 +111,17 @@ export async function POST(request){
     }
     try{
         const body = await request.json();
-        //console.log('body fr route',body)//ok
+        console.log('body fr SP route',body)//ok
         const newSpendingplan = await Spendingplan.create(body);
-        //console.log('newSpendingplan fr route',newSpendingplan)
+       
+        console.log('newSpendingplan fr route',newSpendingplan)
         return new Response(JSON.stringify(newSpendingplan),{status: 201})
        
     }catch (error){
-        return new Response(JSON.stringify(null),{status:500,error})
+      console.log(error)
+      return (
+        new Response(JSON.stringify(null),{status:500,error})
+      )
     }
 }
 export async function DELETE(request){

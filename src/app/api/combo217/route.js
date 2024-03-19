@@ -26,181 +26,178 @@ export async function GET(request){
             
             
             {
-                $lookup: {
-                  from: "categories",
-                  //localField: "_id",
-                  //foreignField: "categoryId",
-            
-                  // as: "category",
-                  let: {
-                    //title:"$category.title"
-                    categoryId: { $toObjectId:"$categoryId"},
+              $lookup: {
+                from: "categories",
+                let: {
+                  categoryId: {
+                    $toObjectId: "$categoryId",
                   },
-                  pipeline: [
-                    {
-                      $match: {
-                        $expr: {
-                          $eq: ["$_id", "$$categoryId"],
-                        },
-                      },
-                    },
-                    {
-                      $project: {
-                        categoryId: 1,
-                        title: 1,
-                      },
-                    },
-                  ],
-                  as: "category",
                 },
-              },
-              {
-                $lookup: {
-                  from: "spendingplans",
-                  // localField: "authorId",
-                  // foreignField: "authorId",
-                  let: {
-                    //categoryTitle: "$title",
-                    authorId: "$authorId",
-                    month: {
-                      $month: "$transdate",
+                pipeline: [
+                  {
+                    $match: {
+                      $expr: {
+                        $eq: ["$_id", "$$categoryId"],
+                      },
                     },
-                    year: {
-                      $year: "$transdate",
-                    },
-                    categoryId: "$categoryId",
                   },
-                  pipeline: [
-                    {
-                      $match: {
-                        $expr: {
-                          $eq: ["$authorId", "$$authorId"],
-                        },
+                  {
+                    $addFields: {
+                      titleLower: {
+                        $toLower: "$title",
                       },
                     },
-                    {
-                      $addFields: {
-                        planmonth: {
-                          $month: "$planmonthyear",
-                        },
-                        planyear: {
-                          $year: "$planmonthyear",
-                        },
+                  },
+                  {
+                    $project: {
+                      categoryId: 1,
+                      title: 1,
+                      titleLower: "$titleLower",
+                    },
+                  },
+                ],
+                as: "category",
+              },
+            },
+            {
+              $lookup: {
+                from: "spendingplans",
+                let: {
+                  //categoryTitle: "$title",
+                  authorId: "$authorId",
+                  month: {
+                    $month: "$transdate",
+                  },
+                  year: {
+                    $year: "$transdate",
+                  },
+                },
+                pipeline: [
+                  {
+                    $match: {
+                      $expr: {
+                        $eq: ["$authorId", "$$authorId"],
                       },
                     },
-                    // {
-                    //   $match: {
-                    //     $expr: {
-                    //       $eq: [
-                    //         {
-                    //           //$toObjectId: "$mycategories.0.mycategoryId"
-                    //         },
-                    //         "$$categoryId",
-                    //       ],
-                    //     },
-                    //   },
-                    // },
-                    {
-                      $addFields: {
-                        mycategories_details: {
-                          $arrayElemAt: ["$mycategories", 0],
-                        },
+                  },
+                  {
+                    $addFields: {
+                      planmonth: {
+                        $month: "$planmonthyear",
+                      },
+                      planyear: {
+                        $year: "$planmonthyear",
                       },
                     },
-                    // {
-                    //   "$set": {
-                    //       "mycategories_details.checkfilter": {
-                    //         "$filter": {
-                    //           "input": "$mycategories_details",
-                    //           "as": "mycats",
-            
-                    //            elementExists: {
-                    //         $cond: [
-                    //           {
-                    //             $in: [
-                    //               "$$categoryId",
-                    //               "$$mycats.mycategoryId",
-                    //             ],
-                    //           },
-                    //           true,
-                    //           false,
-                    //         ],
-                    //       },
-            
-                    //         }
-                    //       },
-                    //   }
-                    // },
-                    {
-                      $project: {
-                        title: "$category.title",
-                        //mycategories_details:1,
-                        categoryId: "$$categoryId",
-                        //title:"$category.title",
+                  },
+                  {
+                    $match: {
+                      $expr: {
+                        $and: [
+                          {
+                            $eq: ["$planmonth", "$$month"],
+                          },
+                          {
+                            $eq: ["$planyear", "$$year"],
+                          },
+                        ],
+                      },
+                    },
+                  },
+                  {
+                    $project: {
+                      _id: 0,
+                      date: {
+                        mycategories: "$mycategories",
                         month: "$$month",
                         year: "$$year",
-                        categoryTitle: "$categoryTitle",
-                        planmonth: 1,
-                        planyear: 1,
-                        spendingplans_details: 1,
-                        //mycategories_details: 1,
-                        mycategories: 1,
+                        planmonth: "$planmonth",
+                        planyear: "$planyear",
+                        categoryId: "$categoryId",
+                        categoryTitle: "$title",
+                        titleLower: "$titleLower",
                       },
                     },
-                    {
-                      $match: {
-                        $expr: {
-                          $and: [
-                            {
-                              $eq: ["$planmonth", "$month"],
-                            },
-                            {
-                              $eq: ["$planyear", "$year"],
-                            },
-                          ],
-                        },
-                      },
+                  },
+                  {
+                    $replaceRoot: {
+                      newRoot: "$date",
                     },
+                  },
+                ],
+                as: "mycategories",
+              },
+            },
+            {
+              $unwind: {
+                path: "$mycategories",
+              },
+            },
+            {
+              $project: {
+                //setofspcat:"$setofspcat",
+                categoryId: "$categoryId",
+                month: {
+                  $month: "$transdate",
+                },
+                year: {
+                  $year: "$transdate",
+                },
+                title: "$category.title",
+                titleLower: "$category.titleLower",
+                //titleLower:{$toLower:"$category.title"},
+                mycategories: "$mycategories.mycategories",
+                planmonth: "$planmonth",
+                planyear: "$planyear",
+                //mycategory: "$mycategories.mycategoryId",
+                amount: {
+                  $sum: "$amount",
+                },
+              },
+            },
+            {
+              $unwind: {
+                path: "$mycategories",
+              },
+            },
+            {
+              $group: {
+                _id: {
+                  year: "$year",
+                  month: "$month",
+                  planmonth: "$planmonth",
+                  planyear: "$planyear",
+                  categoryTitle: "$title",
+                  titleLower: "$titleLower",
+                  mycategories: "$mycategories",
+                  categoryId: "$categoryId",
+                  //mycategory: "$mycategoryId",
+                  //mycategoryn:
+                  //  "$mycategories.mycategoryId._id",
+                },
+                amount: {
+                  $sum: "$amount",
+                },
+              },
+            },
+            {
+              $project: {
+                amount: "$amount",
+                planamount: "$myplanamt",
+                difference: {
+                  $subtract: [
+                    "$_id.mycategories.planamount",
+                    "$amount",
                   ],
-                  as: "spendingplans_details",
                 },
               },
-              {
-                $project: {
-                  //categoryId: "$categoryId",
-                  month : {$month : "$transdate"}, 
-                  year : {$year :  "$transdate"},
-                  title: "$category.title",
-                  spendingplans_details: 1,
-                  amount: {
-                    $sum: "$amount",
-                  },
-                },
+            },
+            {
+              $sort: {
+                year: -1,
+                month: -1,
               },
-              {
-                $group: {
-                  _id: {
-                    year: "$year",
-                    month: "$month",
-                    planmonth: "$planmonth",
-                    planyear: "$planyear",
-                    categoryTitle: "$title",
-                    categoryId: "$categoryId",
-                    spendingplans_details:
-                      "$spendingplans_details",
-                  },
-                  amount: {
-                    $sum: "$amount",
-                  },
-                },
-              },
-              {
-                $sort: {
-                  year: -1,
-                  month: -1,
-                },
-              },
-          
+            },
           ])
 
 

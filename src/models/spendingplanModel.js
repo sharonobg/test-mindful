@@ -15,7 +15,9 @@ const mycategoriesSchema = new Schema({
                 default:0.00,
                 required:true
             },
-            categorynotes:{ type:String }
+            categorynotes:{ type:String,default:'' },
+            explain:{type:String,default:'' }
+
 })
 const SpendingplanSchema = new Schema(
     {
@@ -29,7 +31,12 @@ const SpendingplanSchema = new Schema(
         default: new Date(),
         required:true
     },
-    mycategories:[mycategoriesSchema]
+    mycategories:[mycategoriesSchema],
+    // difference:{
+    //     type:mongoose.SchemaTypes.Decimal128,
+    //     default:0.00
+    // },
+    
     },
     {timestamps: true}
 );

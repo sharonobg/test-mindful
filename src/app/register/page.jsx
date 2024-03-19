@@ -87,7 +87,7 @@ const toggleShowPass =(e) => {
                     "Content-type":"application/json"
                 },
                 method:"POST",
-                body:JSON.stringify({username,email,password})
+                body:JSON.stringify({username,email,password,role:"user_role"})
             })
             if (res.ok){
                 router.push("/")

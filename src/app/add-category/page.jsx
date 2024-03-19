@@ -10,14 +10,12 @@ const CreateCategory = () => {
     const {data:session,status} = useSession();
     const router= useRouter();
     const [title,setTitle]= useState("")
-
-    
     if(status === 'loading'){
         return <p>Loading...</p>
     }
-    //if(status === 'unauthenticated'){
-    //    return <p className="font-bold text-red-500">Access Denied</p>
-    //}
+    if(status === 'unauthenticated'){
+       return <p className="font-bold text-red-500">Access Denied</p>
+    }
     const handleSubmit = async (e) => {
         e.preventDefault();
         if(!title){

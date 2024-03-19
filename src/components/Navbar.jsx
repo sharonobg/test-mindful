@@ -16,7 +16,7 @@ export default function Navbar() {
         <nav className="flex flex-row align-middle max-w-[100%] px-8 py-3 bg-blue-400 justify-between">
             <Link className="text-white font-bold" href = {"/"}>Home</Link>
             <Link className="text-white font-bold" href = {"/transaction"}>Add a transaction</Link>
-            
+            <Link className="text-white font-bold" href = {"/my-spending-plan"}target="_blank">Spending Plan</Link>
             <div className="text-white font-bold">{session? `Logged in with ${session.user?.email}` : "Please sign In"}</div>
             
             <div className="flex flex-row ">

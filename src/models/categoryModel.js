@@ -8,6 +8,13 @@ const CategorySchema = new Schema(
             min:6
         },
     },
+    {
+        categoryOwnerId:{
+            type:mongoose.Schema.Types.ObjectId,
+            ref: "User",
+            required:false
+        }
+    },
     {timestamps: true}
 );
 const Category = mongoose.models.Category || mongoose.model("Category", CategorySchema);

@@ -55,37 +55,20 @@ const getCategories = async () => {
 
 }
 export default async function SPCategoryView(props) {
-    //const {categories} = await getCategories();
     const transactiontotals = await getTotals();
-    //const spendingplannew = await getPlans();
-    //const  getboth = await  getBothWTotals();
-    //const spendingplannotalt = await getPlansFirst(); 
-    //const grandtotals = await getGrandTotals();
     const getplans = await getPlans();
     const getMonth = new Date().getMonth()+1
     const newD = new Date()
     const month = newD.toLocaleString('default', { month: 'long' });
     const getYear = new Date().getFullYear()
     const getMonthYear = getMonth +'/' +getYear;
-    //let propscategory = ''| undefined;
-    //if(`${props.category}` == undefined){
-    // propscategory = undefined
-    //}else{
-    // propscategory = `${props.category}`
-    //}
-//const mycategoriesdata = getPlans();
-
-    //console.log('getPlans',getplans)
-    //console.log('spending planfiltermonth',props.fmonth)
-    //console.log('spending planfilteryear',props.fyear)
-   //console.log('SPCategoryView transactiontotals',transactiontotals)
-   //console.log(`${getplans.month}/{ getplans.year}`)
+  
     return(
        <>
-         {/*} <pre>GET getplans:{JSON.stringify(getplans, null, 2)}</pre>*/}
-
+          {/*<pre>SPW GET getplans:{JSON.stringify(getplans, null, 2)}</pre>*/}
+          <pre>GET props:{JSON.stringify(props, null, 2)}</pre>
        <div className="my-5 flex flex-col place-items-center">
-       <h1>SPW Spending Plan Combo:  {props.fmonth}/{props.fyear}<br />(note-cats not entered should be 0.00 all categories should show)</h1>
+       <h1>NEW SPW Spending Plan Combo:  {props.fmonth}/{props.fyear}<br />(note-cats not entered should be 0.00 all categories should show)</h1>
        </div>
        <div className="my-5 flex flex-col place-items-center">
        <div className="flex flex-row  w-full min-h-[50%] bg-white">
@@ -96,26 +79,27 @@ export default async function SPCategoryView(props) {
         <div className="font-bold border border-amber-500 w-[100px] p-2 ">Difference</div>
         <div className="font-bold border border-amber-500 w-[200px] p-2 ">Explain Diff</div>
         </div>
-        {getplans?.length > -1 ? (getplans.map((spendingplan,index) =>
+        {getplans?.length > -1 ? (getplans.map((spending,index) =>
            
         <div key={index} className="spkey">
-        { spendingplan?.month == `${props?.fmonth}` && spendingplan?.year == `${props?.fyear}` ?  (
+        { spending?.month == `${props?.fmonth}` && spending?.year == `${props?.fyear}` ?  (
                     <>
-        <div className="flex flex-col" key={spendingplan._id}>
+        <div className="flex flex-col" key={spending._id}>
                     
-        {spendingplan.mycategories.map((lookup,index) =>
-            
+        {spending.mycategories.map((lookup,index) =>
+           
             <div className="flex flex-row" key={index}>
-            <div className="border border-amber-500 w-[200px] p-2 ">{spendingplan.$amount}</div>
-                     <div className="border border-amber-500 w-[200px] p-2 ">{spendingplan.$title}</div>
-            <div className="border border-amber-500 w-[200px] p-2 ">{spendingplan.month}/{spendingplan.year}</div>
-            <div className="border border-amber-500 w-[400px] p-2 ">Category:{lookup.$mycategoryId}{lookup.categorynotes}</div>
+            <div className="border border-amber-500 w-[200px] p-2 ">SPW:{spending.$amount}</div>
+                     <div className="border border-amber-500 w-[200px] p-2 ">{spending.$title}</div>
+            <div className="border border-amber-500 w-[200px] p-2 ">{spending.month}/{spending.year}</div>
+            <div className="border border-amber-500 w-[400px] p-2 ">{lookup?.$mycategoryId}{lookup?.categorynotes}</div>
             
            
-            <div className="border border-amber-500 w-[200px] p-2 ">planamt:{lookup.planamount.$numberDecimal}</div>
+            <div className="border border-amber-500 w-[200px] p-2 ">{lookup?.planamount?.$numberDecimal}</div>
             
             </div>
-            )}
+            )
+            }
             </div></> 
         ): `SPW You don't have a plan set up for ${props.fmonth}/${props.fyear}`}
         </div>
@@ -126,7 +110,7 @@ export default async function SPCategoryView(props) {
         <div key={index} className="transactiontotalkey">
         { transactiontotal._id.year == `${props.fyear}` && transactiontotal._id.month == `${props.fmonth}` && (`${props.category}` == 'all-categories' ||  transactiontotal._id.title == `${props.category}`) && 
         <>
-        <div className="title border border-amber-500 w-[200px] p-2 ">{transactiontotal?._id.title}</div>
+        <div className="title border border-amber-500 w-[200px] p-2 ">TITLE:{transactiontotal?._id.title}</div>
         <div className="amount border border-amber-500 w-[200px] py-2">{transactiontotal?.amount.$numberDecimal}</div>
         <div className="diff border border-amber-500 w-[100px] p-2 ">Difference</div>
         <div className="explain border border-amber-500 w-[200px] p-2 ">Explain Diff</div>
@@ -136,25 +120,6 @@ export default async function SPCategoryView(props) {
        )):("cant find any totals")
        
        }
-     
-       {/*
-       {grandtotals?.length > -1 ? (grandtotals.map((grandtotal,index) =>
-        
-        <div key={index} className="flex flex-row  w-full min-h-[50%] font-bold bg-white">
-        {  grandtotal._id.year == `${props.fyear}` && grandtotal._id.month == `${props.fmonth}` && `${props.category}` == 'all-categories' &&
-        <>
-        <div className="border border-amber-500 w-[200px] p-2 ">{grandtotal._id.month}/{grandtotal._id.year}</div>
-        <div className="border border-amber-500 w-[200px] p-2 ">GrandTotal:{grandtotal._id.month}/{grandtotal._id.year}</div>
-        <div className="border border-amber-500 w-[200px] p-2 ">Plan Total</div>
-        <div className="border border-amber-500 w-[200px] py-2">{grandtotal?.amount.$numberDecimal}</div>
-        <div className="border border-amber-500 w-[100px] p-2 ">Difference</div>
-        <div className="border border-amber-500 w-[200px] p-2 ">Explain Diff</div>
-        </>}
-        </div>
-        
-       )):("cant find any totals")
-       
-       }*/}
        
         </div>
        </>

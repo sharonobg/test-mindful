@@ -1,6 +1,5 @@
 import {headers} from "next/headers"
 
-
 const getTotals = async () => {
     try{
         const res = await fetch("http://localhost:3000/api/transactiontitle-totals",{
@@ -72,7 +71,7 @@ export default async function SPCategoryView(props) {
        <>
       
        <div className="my-5 flex flex-col place-items-center">
-       <h1>Monthly Spending Plan:  {props.fmonth}/{props.fyear}<br />(SpendingPlan)</h1>
+       <h1>Monthly Spending Plan:  {props.fmonth}/{props.fyear}/{props.category}<br />(SpendingPlan)</h1>
        </div>
        <div className="my-5 flex flex-col place-items-center">
        <div className="flex flex-row  w-full min-h-[50%] bg-white">
@@ -85,10 +84,10 @@ export default async function SPCategoryView(props) {
         </div>
         <div className="flex flex-row  w-full min-h-[50%] bg-white">
         <div className="font-bold border border-amber-500 w-[200px] p-2 ">Category Notes</div>
-        <div className="font-bold border border-amber-500 w-[200px] p-2 ">Some Categoryu</div>
-        <div className="font-bold border border-amber-500 w-[200px] p-2 ">150.00</div>
-        <div className="font-bold border border-amber-500 w-[200px] py-2">0.00</div>
-        <div className="font-bold border border-amber-500 w-[100px] p-2 ">150.00</div>
+        <div className="font-bold border border-amber-500 w-[200px] p-2 ">Category</div>
+        <div className="font-bold border border-amber-500 w-[200px] p-2 ">PlannedAmt</div>
+        <div className="font-bold border border-amber-500 w-[200px] py-2">Actual Amt</div>
+        <div className="font-bold border border-amber-500 w-[100px] p-2 ">Difference</div>
         <div className="font-bold border border-amber-500 w-[200px] p-2 ">not done</div>
         </div>
        
@@ -102,7 +101,7 @@ export default async function SPCategoryView(props) {
         <div className="border border-amber-500 w-[200px] p-2 ">{transactiontotal?._id.title}</div>
         
         <div className="border border-amber-500 w-[200px] p-2 ">Planned Amt</div>
-        <div className="border border-amber-500 w-[200px] py-2">{transactiontotal?.amount.$numberDecimal}</div>
+        <div className="border border-amber-500 w-[200px] py-2">{transactiontotal?.amount?.$numberDecimal}</div>
         <div className="border border-amber-500 w-[100px] p-2 ">Difference</div>
         <div className="border border-amber-500 w-[200px] p-2 ">Explain Diff</div>
         </>  }
@@ -119,7 +118,7 @@ export default async function SPCategoryView(props) {
         <div className="border border-amber-500 w-[200px] p-2 ">{grandtotal._id.month}/{grandtotal._id.year}</div>
         <div className="border border-amber-500 w-[200px] p-2 ">GrandTotal:{grandtotal._id.month}/{grandtotal._id.year}</div>
         <div className="border border-amber-500 w-[200px] p-2 ">Plan Total</div>
-        <div className="border border-amber-500 w-[200px] py-2">{grandtotal?.amount.$numberDecimal}</div>
+        <div className="border border-amber-500 w-[200px] py-2">{grandtotal?.amount?.$numberDecimal}</div>
         <div className="border border-amber-500 w-[100px] p-2 ">Difference</div>
         <div className="border border-amber-500 w-[200px] p-2 ">Explain Diff</div>
         </>}

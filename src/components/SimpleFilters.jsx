@@ -75,6 +75,8 @@ export default function SimpleFilterTransaction() {
     const clearFilter = (e) => {
       e.preventDefault();
      //console.log('filter params', params)
+     router.push(`/?fyear=${queryYear ? queryYear : getYear }&fmonth=${queryMonth ? queryMonth : getMonth+1 }&category=all-categories`)
+
     }
     const categoryFilter = (e) => {
       e.preventDefault();
@@ -84,7 +86,7 @@ export default function SimpleFilterTransaction() {
       //let newYear = datesfilterVal.slice(datesfilterVal.length - 4); 
       //let newMonth = datesfilterVal.slice(0, - 4); 
       let categoryT = categoryTitle.toLowerCase();
-      let qm = queryMonth?queryMonth:"no month";
+      //let qm = queryMonth?queryMonth:"no month";
       //console.log('qm?: ',qm)
       //console.log('params props newYear filter: ',newYear)
       //console.log('params props category filter: ',categoryTitle)

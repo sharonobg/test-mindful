@@ -31,7 +31,7 @@ const CreateTransaction = () => {
         return <p>Loading...</p>
     }
     if(status === 'unauthenticated'){
-        return <p className="font-bold text-red-500">Access Denied</p>
+        return <p className="font-bold text-red-500 text-center">Access Denied - Please Sign In</p>
     }
     
     const handleSubmit = async (e) => {
@@ -67,8 +67,8 @@ const CreateTransaction = () => {
             }
             const transaction = await res.json();
             //console.log('transaction ln65',transaction)
-            router.refresh()
-            router.push(`/transaction/${transaction?._id}`)
+            //router.refresh()
+            //router.push(`/transaction/${transaction?._id}`)
         }catch (error) {
 
         }

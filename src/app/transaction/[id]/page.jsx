@@ -37,6 +37,7 @@ useEffect(() => {
         //setLoading(false)
       })
   }, []);
+
 useEffect(() => {
     
    async function fetchTransaction() {  
@@ -142,22 +143,22 @@ const handleDeleteA= async (e) => {
 
     
 }
-const handleDelete = async (ctx) => {
-    const id = ctx.params.id
-    console.log(id)
-        const confirmed = confirm("Are you sure?");
-        if(confirmed){
-            //ctx.params.id
+// const handleDelete = async (ctx) => {
+//     const id = ctx.params.id
+//     console.log(id)
+//         const confirmed = confirm("Are you sure?");
+//         if(confirmed){
+//             //ctx.params.id
             
-            const res = await fetch(`http://localhost:3000/api/transaction/${ctx.params.id}`, {
-                method: "DELETE"
-            });
-            if(res.ok){
-                router.refresh();
-            }
+//             const res = await fetch(`http://localhost:3000/api/transaction/${ctx.params.id}`, {
+//                 method: "DELETE"
+//             });
+//             if(res.ok){
+//                 router.refresh();
+//             }
             
-        }
-    }
+//         }
+//     }
 
 return(
     <>
