@@ -52,7 +52,7 @@ export default function SimpleFilterTransaction() {
     //console.log('filtersearch',{searchParams})
         useEffect(() => {
             //fetch('http://localhost:3000/api/newsimplefilter')
-            fetch('https://mindful-spending-22924.vercel.app/api/newsimplefilter')
+            fetch('/api/newsimplefilter')
             .then((res) => res.json())
               .then((filters) => {
                 //console.log('filters: ',filters)
@@ -61,7 +61,7 @@ export default function SimpleFilterTransaction() {
             },[])
 
           useEffect(() => {
-            fetch('https://mindful-spending-22924.vercel.app/api/category')
+            fetch('/api/category')
             //fetch('http://localhost:3000/api/category')
               .then((res) => res.json())
               .then(({categories}) => {
