@@ -16,8 +16,8 @@ const CategoryDetails = (ctx) => {
     useEffect(() => {
        const id = ctx.params.id
        async function fetchCategory(){                        
-           const res = await fetch(`http://localhost:3000/api/category/${ctx.params.id}`,{cache:'no-store'})
-           
+           //const res = await fetch(`http://localhost:3000/api/category/${ctx.params.id}`,{cache:'no-store'})
+           const res = await fetch(`https://mindful-spending-22924.vercel.app/api/category/${ctx.params.id}`,{cache:'no-store'})
            const category = await res.json()
            console.log('category after await: ',category)
            setCategoryDetails(category);
@@ -30,7 +30,8 @@ const CategoryDetails = (ctx) => {
     try{
         const confirmModal = confirm("Do you want to delete this category?");
         if(confirmModal){
-            const res = await fetch(`http://localhost:3000/api/category/${ctx.params.id}`,{
+            //const res = await fetch(`http://localhost:3000/api/category/${ctx.params.id}`,{
+            const res = await fetch(`https://mindful-spending-22924.vercel.app/api/category/${ctx.params.id}`,{
             headers:{
                 "Authorization": `Bearer ${session?.user?.accessToken}`
             },

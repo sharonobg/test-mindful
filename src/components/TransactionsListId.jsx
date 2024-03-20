@@ -11,7 +11,9 @@ export default async function TransactionList(props) {
 const getTransactions = async () => {
         try{
             
-            const res = await fetch("http://localhost:3000/api/transaction",{
+            //const res = await fetch("http://localhost:3000/api/transaction",{
+                
+            const res = await fetch("https://mindful-spending-22924.vercel.app/api/transaction",{
                 cache: 'no-store',
                 method: "GET",
                 headers: headers(),

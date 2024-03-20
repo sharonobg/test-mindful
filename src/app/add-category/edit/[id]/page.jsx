@@ -13,7 +13,8 @@ const Edit = (ctx) => {
 useEffect(() => {
     async function fetchCategory(){
         const id = ctx.params.id;
-        const res = await fetch(`http://localhost:3000/api/category/${id}`);
+        //const res = await fetch(`http://localhost:3000/api/category/${id}`);
+        const res = await fetch(`https://mindful-spending-22924.vercel.app/api/category/${id}`);
         const category = await res.json();
         setTitle(category.title);
     }

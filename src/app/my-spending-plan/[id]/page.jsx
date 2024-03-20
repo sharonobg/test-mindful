@@ -35,7 +35,8 @@ const Edit = (ctx) => {
     
 useEffect(() => {
     
-    fetch('http://localhost:3000/api/category')
+    //fetch('http://localhost:3000/api/category')
+    fetch('https://mindful-spending-22924.vercel.app/api/category')
       .then((res) => res.json())
       .then(({categories}) => {
         setCategories(categories)
@@ -47,7 +48,8 @@ useEffect(() => {
   useEffect(() => {
   async function fetchSpendingplan() {  
                          
-    const res = await fetch(`http://localhost:3000/api/my-spending-plan/${ctx.params.id}`
+    //const res = await fetch(`http://localhost:3000/api/my-spending-plan/${ctx.params.id}`
+    const res = await fetch(`https://mindful-spending-22924.vercel.app/api/my-spending-plan/${ctx.params.id}`
     ,{cache:'no-store'}
     )
     const spendingplan = await res.json()
@@ -146,7 +148,8 @@ const handleSubmit= async (e) => {
         }
             
         }
-        const res = await fetch(`http://localhost:3000/api/spendingplan/${ctx.params.id}`,{
+        //const res = await fetch(`http://localhost:3000/api/spendingplan/${ctx.params.id}`,{
+        const res = await fetch(`https://mindful-spending-22924.vercel.app/api/spending-plan/${ctx.params.id}`,{
     
         headers: {
             "Content-Type": 'application/json',
@@ -179,8 +182,8 @@ const handleDeleteA= async (e) => {
         //const body = {
         //    transdate,descr,acctype,categoryId,amount
         //}
-        const res = await fetch(`http://localhost:3000/api/spendingplan/${ctx.params.id}`,{
-    
+        //const res = await fetch(`http://localhost:3000/api/spendingplan/${ctx.params.id}`,{
+        const res = await fetch(`https://mindful-spending-22924.vercel.app/api/spendingplan/${ctx.params.id}`,{
         headers: {
             "Content-Type": 'application/json',
             "Authorization": `Bearer ${session?.user?.accessToken}`

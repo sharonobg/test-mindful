@@ -36,7 +36,8 @@ const CreateSpendingPlan = () => {
     const router= useRouter();
    
     useEffect(() => {
-      fetch('http://localhost:3000/api/category')
+      //fetch('http://localhost:3000/api/category')
+      fetch('https://mindful-spending-22924.vercel.app/api/category')
         .then((res) => res.json())
         .then(({categories}) => {
           setCategories(categories)
@@ -170,7 +171,7 @@ console.log('categoryArr',categoryArr);
     
     try{
         //const amount = parseFloat(amount).toFixed(2);
-         const res = await fetch('http://localhost:3000/api/my-spending-plan',{
+         const res = await fetch('https://mindful-spending-22924.vercel.app/api/my-spending-plan',{
           //const newplan = await fetch('http://localhost:3000/api/my-spending-plan',{
           headers:{
             "Content-type":"application/json",

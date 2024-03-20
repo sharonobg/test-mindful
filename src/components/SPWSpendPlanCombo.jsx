@@ -2,7 +2,8 @@ import {headers} from "next/headers"
 
 const getPlans = async (props) => {
     try{
-        const res = await fetch("http://localhost:3000/api/spending-plan-alt",{
+        //const res = await fetch("http://localhost:3000/api/spending-plan-alt",{
+           const res = await fetch("https://mindful-spending-22924.vercel.app/api/spending-plan-alt",{
            cache: 'no-store',
            method: "GET",
            headers: headers(),
@@ -22,8 +23,9 @@ const getPlans = async (props) => {
 }
 const getTotals = async () => {
     try{
-        const res = await fetch("http://localhost:3000/api/combo-waddfields-ttitles",{
-           cache: 'no-store',
+        //const res = await fetch("http://localhost:3000/api/combo-waddfields-ttitles",{
+            const res = await fetch("https://mindful-spending-22924.vercel.app/api/combo-waddfields-ttitles",{
+                   cache: 'no-store',
            method: "GET",
            headers: headers(),
         });
@@ -37,23 +39,24 @@ const getTotals = async () => {
     }
     
 }
-const getCategories = async () => {
-    try{
-        const res = await fetch("http://localhost:3000/api/category",{
-           cache: 'no-store',
-           method: "GET",
-           headers: headers(),
-        });
-        if(!res.ok){
-            throw new Error("Failed to fetch categories");
-        }
-        //console.log('route categories',{categories})
-        return res.json();
-    }catch(error){
-        console.log("Error finding categories",error)
-    }
+// const getCategories = async () => {
+//     try{
+//         const res = await fetch("http://localhost:3000/api/category",{
 
-}
+//            cache: 'no-store',
+//            method: "GET",
+//            headers: headers(),
+//         });
+//         if(!res.ok){
+//             throw new Error("Failed to fetch categories");
+//         }
+//         //console.log('route categories',{categories})
+//         return res.json();
+//     }catch(error){
+//         console.log("Error finding categories",error)
+//     }
+
+// }
 export default async function SPCategoryView(props) {
     const transactiontotals = await getTotals();
     const getplans = await getPlans();

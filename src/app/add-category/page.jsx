@@ -23,7 +23,8 @@ const CreateCategory = () => {
             return
         }
         try{
-            const res = await fetch('http://localhost:3000/api/category',{
+            //const res = await fetch('http://localhost:3000/api/category',{
+            const res = await fetch('https://mindful-spending-22924.vercel.app/api/category',{
                 headers:{
                     "Content-type":"application/json",
                     "Authorization":`Bearer ${session?.user?.accessToken}`
