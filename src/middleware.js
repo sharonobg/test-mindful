@@ -2,6 +2,8 @@ import {NextRequest, NextResponse} from "next/server";
 
 
     const allowedOrigins = [
+        'http://sharonobrien.com',
+          'https://sharonobrien.com',
         'http://localhost:3000/',
         'https://mindful-spending-22924.vercel.app/',
         'https://mindful-spending.vercel.app/',

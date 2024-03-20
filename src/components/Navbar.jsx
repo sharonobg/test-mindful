@@ -18,7 +18,6 @@ export default function Navbar() {
             <Link className="text-white font-bold" href = {"/transaction"}>Add a transaction</Link>
             <Link className="text-white font-bold" href = {"/my-spending-plan"}target="_blank">Spending Plan</Link>
             <div className="text-white font-bold">{session? `Logged in with ${session.user?.email}` : "Please sign In"}</div>
-            
             <div className="flex flex-row ">
             {session?.user
             ?(
