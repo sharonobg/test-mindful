@@ -24,7 +24,7 @@ export default function Navbar() {
             ?(
                 <button onClick={() => signOut()} className="text-white font-bold">Sign Out</button>
             ):(<>
-                <button onClick={() =>  signIn()} className="text-white font-bold">Sign In</button>
+                <button onClick={(e) =>  {e.preventDefault(); signIn()}} className="text-white font-bold">Sign In</button>
                 <Link className="text-white font-bold ml-4" href="/register">Register</Link>
                 </>
                 )}
