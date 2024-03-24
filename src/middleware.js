@@ -9,6 +9,7 @@ import {NextRequest, NextResponse} from "next/server";
         'http://localhost:3000/',
         'https://mindful-spending-22924.vercel.app/',
         'https://mindful-spending.vercel.app/',
+        'https://test-mindful-21ssufsh1-sharonobg.vercel.app'
     ]
     const corsOptions = {
         'Access-Control-Allow-Headers':
