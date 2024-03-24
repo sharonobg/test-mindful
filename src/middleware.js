@@ -62,7 +62,7 @@ import {NextRequest, NextResponse} from "next/server";
 //export{default} from 'next-auth/middleware'
 export const config = {
     matcher:[
-      "/my-spending-plan/:path*",
+    "/my-spending-plan/:path*",
     "/transaction/:path*",
     "/addCategory",  
     "/api/:path*"

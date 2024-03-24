@@ -14,17 +14,12 @@ export async function GET(request){
         const session = await getServerSession(authOptions);
         const sessionUser = session?.user?._id;
         //console.log(sessionUser)
-        //const ObjectId = mongoose.Schema.Types.ObjectId
-//const ids = ['categoryId', 'mycategories.mycategoryId'].map(id => ObjectId(id))
-//const pipeline = [{$match: {_id: {$in: ids }}}]
         const transactionstotal= await Transaction.aggregate([
             //{ $match: { $expr : { $eq: [ '$authorId' , { $toObjectId: sessionUser } ] } } },//WORKS!!
             { $match: {
                 //"categoryId": { $exists: true, },
                  $expr : { $eq: [ '$authorId' , { $toObjectId: sessionUser } ] } 
             }},
-            
-            
             {
               $lookup: {
                 from: "categories",
@@ -63,7 +58,6 @@ export async function GET(request){
               $lookup: {
                 from: "spendingplans",
                 let: {
-                  //categoryTitle: "$title",
                   authorId: "$authorId",
                   month: {
                     $month: "$transdate",

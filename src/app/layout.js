@@ -8,7 +8,7 @@ export const metadata = {
   description: 'Mindfullness exercise',
 }
 
-export default function RootLayout({ children }) {
+export default function RootLayout({ children,params }) {
   return (
     <html lang="en">
       <body className="">

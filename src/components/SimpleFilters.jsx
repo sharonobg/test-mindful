@@ -33,7 +33,7 @@ export default function SimpleFilterTransaction() {
     //console.log('queryCategory filter: ',queryCategory)
     //console.log('queryMonth filter: ',queryMonth)
     //console.log('queryYear filter: ',queryYear)
-    //console.log('params useParams filter: ', name)
+    //console.log('params useParams filter: ', params)
    // console.log('prop search filter:',search)
 
     //list of options with current year, all months up to and including the current month.
