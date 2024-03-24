@@ -2,7 +2,7 @@ import Link from "next/link"
 import { BsFillPencilFill } from 'react-icons/bs'
 import {headers} from "next/headers"
 import RemoveTransaction from "../components/RemoveTransaction";
-import {getTransactions} from "../utils/transactions";
+//import {getTransactions} from "../utils/transactions";
 import {NextResponse} from "next/server";
 import Transaction from "../models/transactionModel";
 import {getServerSession} from "next-auth"
